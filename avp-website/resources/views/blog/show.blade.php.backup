@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ $article->title }}</title>
+    <style>
+        body { font-family: Arial; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 5px; }
+        h1 { color: #333; }
+        .meta { color: #999; font-size: 0.9em; margin-bottom: 20px; }
+        .content { line-height: 1.8; color: #555; }
+        .back { margin-bottom: 20px; }
+        .back a { color: #007bff; text-decoration: none; }
+        .back a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back">
+            <a href="/blog">← Back to Blog</a>
+        </div>
+
+        <h1>{{ $article->title }}</h1>
+        <p class="meta">Posted on: {{ $article->created_at }}</p>
+
+        <div class="content">
+            {!! $article->content !!}
+        </div>
+    </div>
+</body>
+</html>

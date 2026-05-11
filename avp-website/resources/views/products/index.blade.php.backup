@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Our Products</title>
+</head>
+<body>
+    <h1>Our Products</h1>
+
+    <div class="products">
+        @foreach($products as $product)
+            <div class="product">
+                <h3>{{ $product->title }}</h3>
+                <p>{{ Str::limit($product->description, 100) }}</p>
+                <a href="/products/{{ $product->id }}">View Details</a>
+            </div>
+        @endforeach
+    </div>
+</body>
+</html>

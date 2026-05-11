@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+    /* Theme Colors based on user preference: Yellow = Green = Red > Black */
+    --color-primary: #e11d48;    /* Vibrant Red */
+    --color-secondary: #16a34a;  /* Vibrant Green */
+    --color-highlight: #eab308;  /* Vibrant Yellow */
+    --color-dark: #111827;       /* Deep Black/Gray */
+    --color-surface: #ffffff;    /* Clean White Background */
+    
+    --shadow-premium: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 15px -3px rgba(0, 0, 0, 0.05);
+    --shadow-premium-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+@layer base {
+    body {
+        @apply bg-surface text-dark font-sans antialiased;
+    }
+}
+
+@layer components {
+    .container-custom {
+        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    }
+    
+    .btn-primary {
+        @apply bg-primary hover:bg-dark text-white px-6 py-2 rounded-lg transition-all duration-300 font-bold flex items-center justify-center gap-2;
+    }
+    
+    .btn-secondary {
+        @apply bg-secondary hover:bg-dark text-white px-6 py-2 rounded-lg transition-all duration-300 font-bold flex items-center justify-center gap-2;
+    }
+
+    .btn-highlight {
+        @apply bg-highlight hover:bg-dark text-dark hover:text-white px-6 py-2 rounded-lg transition-all duration-300 font-bold flex items-center justify-center gap-2;
+    }
+    
+    .card-premium {
+        @apply bg-white rounded-xl shadow-premium border border-gray-100 hover:border-primary/30 transition-all duration-300 overflow-hidden;
+    }
+    
+    .input-premium {
+        @apply w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-200;
+    }
+}
