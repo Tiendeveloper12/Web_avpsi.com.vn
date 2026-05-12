@@ -32,12 +32,15 @@
 
                 <!-- Right Main Content -->
                 <main class="flex-grow flex flex-col gap-8">
+                    <!-- Top Banner Carousel -->
+                    <x-banner-carousel />
+
                     <!-- Photocopy Machines Section -->
                     <section>
                         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-l-8 border-secondary pl-6">
                             <div>
                                 <h2 class="text-3xl font-black text-dark tracking-tighter uppercase mb-1">Máy Photocopy Công Nghiệp</h2>
-                                <p class="text-gray-500 font-medium text-sm">Giải pháp in ấn và photocopy <span class="text-secondary font-bold">Thuê & Mua</span> cho doanh nghiệp lớn.</p>
+                                <p class="text-gray-500 font-medium text-sm">Giải pháp photocopy cho khách hàng/doanh nghiệp lớn.</p>
                             </div>
                         </div>
 
