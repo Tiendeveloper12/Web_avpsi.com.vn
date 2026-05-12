@@ -5,11 +5,11 @@
             <div class="flex items-center gap-6">
                 <span class="flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                    028 3550 0122
+                    0912 97 9394 / 0903 111 052
                 </span>
                 <span class="hidden md:flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Giờ làm việc: 8:00 - 20:00
+                    Giờ làm việc: 7:45 - 11:45, 13:00 - 17:00
                 </span>
             </div>
             <div class="flex items-center gap-4">
@@ -23,15 +23,8 @@
     <!-- Main Header -->
     <div class="py-4 bg-white">
         <div class="container-custom flex items-center justify-between gap-8">
-            <!-- Logo -->
             <a href="/" class="flex-shrink-0">
-                <div class="flex items-center gap-2">
-                    <div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-lg">AVP</div>
-                    <div class="hidden lg:block">
-                        <h1 class="text-xl font-bold text-dark leading-tight">Âu Việt Phát</h1>
-                        <p class="text-[10px] text-gray-400 uppercase tracking-widest font-semibold">Technology Solutions</p>
-                    </div>
-                </div>
+                <img src="{{ asset('images/logo_header.jpg') }}" alt="Âu Việt Phát Logo" class="h-14 w-auto object-contain">
             </a>
 
             <!-- Search -->
@@ -42,7 +35,7 @@
                     <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-primary-dark transition-colors shadow-md">
+                    <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-[#facc15] text-dark px-6 py-2 rounded-full text-sm font-bold hover:bg-yellow-300 transition-colors shadow-md">
                         Tìm kiếm
                     </button>
                 </form>

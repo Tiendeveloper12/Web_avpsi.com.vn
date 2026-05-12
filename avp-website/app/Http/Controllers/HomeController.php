@@ -9,6 +9,21 @@ class HomeController extends Controller
 {
     public function index()
     {
+        // Fetch specific printers for the top section (IDs 73, 74, 75, 76, 77)
+        $topPrinters = DB::table('product')
+            ->join('variant', 'product.id', '=', 'variant.product_id')
+            ->whereIn('product.id', [73, 74, 75, 76, 77])
+            ->select('product.*', 'variant.price as variant_price')
+            ->get();
+
+        // Fetch photocopy machines for the second section
+        $photocopiers = DB::table('product')
+            ->join('variant', 'product.id', '=', 'variant.product_id')
+            ->where('product.tags', 'like', '%photocopy%')
+            ->select('product.*', 'variant.price as variant_price')
+            ->orderBy('product.created_at', 'desc')
+            ->get();
+
         // Fetch featured products (active status)
         $products = DB::table('product')
             ->where('status', 'active')
@@ -24,6 +39,6 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
-        return view('home.index', compact('products', 'articles'));
+        return view('home.index', compact('products', 'articles', 'topPrinters', 'photocopiers'));
     }
 }

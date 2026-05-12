@@ -3,9 +3,76 @@
 @section('title', 'Âu Việt Phát - Laptop, PC, Máy in và Linh kiện máy tính chính hãng')
 
 @section('content')
-    <!-- Hero Section -->
-    <x-hero />
+    <div class="bg-surface py-6">
+        <div class="container-custom">
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Left Sidebar: Always on top left -->
+                <aside class="lg:w-72 flex-shrink-0">
+                    <x-category-sidebar />
+                    
+                    <!-- Additional Sidebar Info (Optional but adds value) -->
+                    <div class="mt-6 bg-primary/5 border border-primary/10 rounded-xl p-5 hidden lg:block">
+                        <h4 class="font-bold text-dark mb-3 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Tại sao chọn AVP?
+                        </h4>
+                        <ul class="space-y-2 text-xs text-gray-600">
+                            <li class="flex items-center gap-2">
+                                <span class="text-secondary">✓</span> 100% Chính hãng
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-secondary">✓</span> Bảo hành tận nơi
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-secondary">✓</span> Giá tốt thị trường
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
 
+                <!-- Right Main Content -->
+                <main class="flex-grow flex flex-col gap-8">
+                    <!-- Photocopy Machines Section -->
+                    <section>
+                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-l-8 border-secondary pl-6">
+                            <div>
+                                <h2 class="text-3xl font-black text-dark tracking-tighter uppercase mb-1">Máy Photocopy Công Nghiệp</h2>
+                                <p class="text-gray-500 font-medium text-sm">Giải pháp in ấn và photocopy <span class="text-secondary font-bold">Thuê & Mua</span> cho doanh nghiệp lớn.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                            @foreach($photocopiers as $printer)
+                                <x-printer-card :printer="$printer" />
+                            @endforeach
+                        </div>
+                    </section>
+
+                    <!-- Specialized Printer Section (Hire or Buy) -->
+                    <section>
+                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-l-8 border-primary pl-6">
+                            <div>
+                                <h2 class="text-3xl font-black text-dark tracking-tighter uppercase mb-1">Giải Pháp Máy In Chuyên Nghiệp</h2>
+                                <p class="text-gray-500 font-medium text-sm">Cung cấp dịch vụ <span class="text-primary font-bold">Bán & Cho thuê</span> máy in chính hãng.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
+                            @foreach($topPrinters as $printer)
+                                <x-printer-card :printer="$printer" />
+                            @endforeach
+                        </div>
+                    </section>
+
+                    <!-- Hero Slider Section -->
+                    <x-hero />
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rest of the sections outside the sidebar grid for full-width impact -->
+    
     <!-- Feature Highlights -->
     <section class="py-10 bg-white border-y border-gray-50">
         <div class="container-custom">
@@ -51,7 +118,7 @@
     </section>
 
     <!-- Featured Products -->
-    <section class="py-16 bg-surface">
+    <section class="py-16">
         <div class="container-custom">
             <div class="flex items-center justify-between mb-10">
                 <div class="flex items-center gap-4">
@@ -85,7 +152,7 @@
                         <h2 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Giải pháp in ấn <br>toàn diện cho doanh nghiệp</h2>
                         <p class="text-lg text-white/80 mb-10 leading-relaxed">Chúng tôi cung cấp hệ thống máy in, mực in AVP chính hãng giúp tối ưu 40% chi phí vận hành doanh nghiệp bạn.</p>
                         <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                            <a href="#" class="bg-white text-primary px-10 py-4 rounded-2xl font-bold hover:bg-accent hover:text-white transition-all duration-300 shadow-xl scale-100 active:scale-95">Liên hệ ngay</a>
+                            <a href="#" class="bg-white text-primary px-10 py-4 rounded-2xl font-bold hover:bg-highlight hover:text-dark transition-all duration-300 shadow-xl scale-100 active:scale-95">Liên hệ ngay</a>
                             <a href="#" class="border-2 border-white/30 text-white px-10 py-4 rounded-2xl font-bold hover:bg-white/10 transition-all duration-300">Tìm hiểu thêm</a>
                         </div>
                     </div>
@@ -105,8 +172,8 @@
                     <div class="w-2 h-10 bg-secondary rounded-full"></div>
                     <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Tin tức & Sự kiện</h2>
                 </div>
-                <a href="#" class="group flex items-center gap-2 text-accent font-bold text-sm">
-                    Xem tất cả bài viết
+                <a href="#" class="group flex items-center gap-2 text-highlight font-bold text-sm">
+                    Xem tất cả bản tin
                     <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                 </a>
             </div>
@@ -115,22 +182,6 @@
                 @foreach($articles as $article)
                     <x-blog-card :article="$article" />
                 @endforeach
-            </div>
-        </div>
-    </section>
-
-    <!-- Partners -->
-    <section class="py-16 bg-surface border-t border-gray-100">
-        <div class="container-custom">
-            <p class="text-center text-gray-400 font-bold uppercase tracking-widest text-xs mb-10">Đối tác tin cậy của chúng tôi</p>
-            <div class="flex flex-wrap justify-center items-center gap-12 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                <span class="text-3xl font-bold">DELL</span>
-                <span class="text-3xl font-bold">HP</span>
-                <span class="text-3xl font-bold">ASUS</span>
-                <span class="text-3xl font-bold">LENOVO</span>
-                <span class="text-3xl font-bold">CANON</span>
-                <span class="text-3xl font-bold">BROTHER</span>
-                <span class="text-3xl font-bold">INTEL</span>
             </div>
         </div>
     </section>
