@@ -50,14 +50,35 @@
             background: rgba(255, 255, 255, 0.95);
         }
 
-        .nav-container {
-            max-width: 1400px;
+        .nav-container, .header-container, .container {
+            max-width: 1800px;
             margin: 0 auto;
-            padding: 0 40px;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        @media (min-width: 768px) {
+            .nav-container, .header-container, .container {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+        }
+
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             height: 75px;
+        }
+
+        .header-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            padding-top: 40px;
+            padding-bottom: 40px;
         }
 
         .logo {
@@ -135,7 +156,8 @@
         /* Page Header */
         .page-header {
             background: linear-gradient(135deg, #ffffff 0%, var(--color-light) 100%);
-            padding: 60px 40px;
+            padding-top: 60px;
+            padding-bottom: 60px;
             border-bottom: 1px solid var(--color-border);
             position: relative;
             overflow: hidden;
@@ -154,8 +176,6 @@
         }
 
         .header-container {
-            max-width: 1400px;
-            margin: 0 auto;
             position: relative;
             z-index: 1;
         }
@@ -174,9 +194,7 @@
 
         /* Main Content */
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 60px 40px;
+            padding: 40px 10px;
         }
 
         .products-wrapper {
@@ -285,7 +303,7 @@
         /* Products Grid */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 32px;
         }
 
@@ -577,11 +595,8 @@
             }
 
             .container {
-                padding: 40px 20px;
-            }
-
-            .nav-container {
-                padding: 0 20px;
+                padding-top: 40px;
+                padding-bottom: 40px;
             }
         }
 
@@ -642,83 +657,197 @@
         <div class="products-wrapper">
             <!-- Sidebar Filters -->
             <aside class="sidebar">
-                <!-- Search -->
-                <div class="search-section">
+                <!-- Tìm kiếm -->
+                <form action="/products" method="GET" class="search-section">
                     <span class="search-icon">🔍</span>
-                    <input type="text" placeholder="Search products...">
-                </div>
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm kiếm sản phẩm...">
+                </form>
 
-                <!-- Category Filter -->
+                <!-- Bộ lọc tìm kiếm -->
                 <div class="filter-section">
-                    <h3>
+                    <h3 class="font-bold text-dark mb-6 flex items-center gap-2">
                         <span class="filter-title-icon">📁</span>
-                        Categories
+                        Danh mục
                     </h3>
-                    <div class="filter-item">
-                        <input type="checkbox" id="cat-all" checked>
-                        <label for="cat-all">All Products</label>
-                        <span class="filter-count">{{ $products->count() }}</span>
+                    <div class="space-y-2">
+                        <a href="/products" class="flex items-center gap-2 text-sm {{ !request('sub') ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary' }} transition-colors">
+                            <div class="w-1.5 h-1.5 rounded-full {{ !request('sub') ? 'bg-primary' : 'bg-gray-200' }}"></div>
+                            Tất cả sản phẩm
+                        </a>
                     </div>
-                    <div class="filter-item">
-                        <input type="checkbox" id="cat-featured">
-                        <label for="cat-featured">Featured</label>
-                        <span class="filter-count">12</span>
-                    </div>
-                    <div class="filter-item">
-                        <input type="checkbox" id="cat-new">
-                        <label for="cat-new">New Arrivals</label>
-                        <span class="filter-count">8</span>
-                    </div>
-                    <div class="filter-item">
-                        <input type="checkbox" id="cat-sale">
-                        <label for="cat-sale">On Sale</label>
-                        <span class="filter-count">5</span>
+
+                    <div class="mt-6 space-y-6">
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Linh kiện máy tính</h4>
+                            <div class="space-y-2">
+                                @php
+                                    $compSubCats = [
+                                        'sub-monitor' => 'Màn hình',
+                                        'sub-ram' => 'RAM',
+                                        'sub-ssd' => 'SSD/HDD',
+                                        'sub-mainboard' => 'Bảng mạch chính',
+                                        'sub-cpu' => 'CPU',
+                                        'sub-gpu' => 'Card đồ họa',
+                                        'sub-headphone' => 'Tai nghe',
+                                        'sub-wifi' => 'Bộ phát wifi',
+                                        'sub-psu' => 'Nguồn',
+                                        'sub-keyboard' => 'Bàn phím',
+                                        'sub-mouse' => 'Chuột',
+                                    ];
+                                @endphp
+                                @foreach($compSubCats as $subTag => $subName)
+                                    <a href="/products?sub={{ $subTag }}" class="flex items-center gap-2 text-sm {{ request('sub') === $subTag ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary' }} transition-colors">
+                                        <div class="w-1.5 h-1.5 rounded-full {{ request('sub') === $subTag ? 'bg-primary' : 'bg-gray-200' }}"></div>
+                                        {{ $subName }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Máy tính để bàn</h4>
+                            <div class="space-y-2">
+                                @php
+                                    $pcSubCats = [
+                                        'sub-apple' => 'Apple',
+                                        'sub-dell' => 'Dell',
+                                        'sub-hp' => 'HP',
+                                        'sub-lenovo' => 'Lenovo',
+                                        'sub-asus' => 'ASUS',
+                                        'sub-msi' => 'MSI',
+                                        'sub-acer' => 'Acer',
+                                        'sub-gigabyte' => 'Gigabyte',
+                                        'sub-huawei' => 'Huawei',
+                                        'sub-samsung' => 'Samsung',
+                                        'sub-khac' => 'Khác',
+                                    ];
+                                @endphp
+                                @foreach($pcSubCats as $subTag => $subName)
+                                    <a href="/products?sub={{ $subTag }}" class="flex items-center gap-2 text-sm {{ request('sub') === $subTag ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary' }} transition-colors">
+                                        <div class="w-1.5 h-1.5 rounded-full {{ request('sub') === $subTag ? 'bg-primary' : 'bg-gray-200' }}"></div>
+                                        {{ $subName }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Laptop / Macbook</h4>
+                            <div class="space-y-2">
+                                @php
+                                    $laptopSubCats = [
+                                        'sub-macbook' => 'MacBook',
+                                        'sub-asus' => 'ASUS',
+                                        'sub-lenovo' => 'Lenovo',
+                                        'sub-dell' => 'Dell',
+                                        'sub-hp' => 'HP',
+                                        'sub-acer' => 'Acer',
+                                        'sub-msi' => 'MSI',
+                                        'sub-razer' => 'Razer',
+                                        'sub-microsoft' => 'Microsoft',
+                                        'sub-lg' => 'LG',
+                                        'sub-huawei' => 'Huawei',
+                                        'sub-gigabyte' => 'Gigabyte',
+                                        'sub-samsung' => 'Samsung',
+                                    ];
+                                @endphp
+                                @foreach($laptopSubCats as $subTag => $subName)
+                                    <a href="/products?sub={{ $subTag }}" class="flex items-center gap-2 text-sm {{ request('sub') === $subTag ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary' }} transition-colors">
+                                        <div class="w-1.5 h-1.5 rounded-full {{ request('sub') === $subTag ? 'bg-primary' : 'bg-gray-200' }}"></div>
+                                        {{ $subName }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Máy in</h4>
+                            <div class="space-y-2">
+                                @php
+                                    $printerSubCats = [
+                                        'sub-hp' => 'HP',
+                                        'sub-canon' => 'Canon',
+                                        'sub-epson' => 'Epson',
+                                        'sub-brother' => 'Brother',
+                                        'sub-xerox' => 'Xerox',
+                                        'sub-pantum' => 'Pantum',
+                                    ];
+                                @endphp
+                                @foreach($printerSubCats as $subTag => $subName)
+                                    <a href="/products?sub={{ $subTag }}" class="flex items-center gap-2 text-sm {{ request('sub') === $subTag ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary' }} transition-colors">
+                                        <div class="w-1.5 h-1.5 rounded-full {{ request('sub') === $subTag ? 'bg-primary' : 'bg-gray-200' }}"></div>
+                                        {{ $subName }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Thiết bị mạng</h4>
+                            <div class="space-y-2">
+                                @php
+                                    $networkSubCats = [
+                                        'sub-router' => 'Bộ định tuyến Wifi',
+                                        'sub-cable' => 'Dây cáp Internet',
+                                        'sub-switch' => 'Bộ chuyển mạch (Switch)',
+                                    ];
+                                @endphp
+                                @foreach($networkSubCats as $subTag => $subName)
+                                    <a href="/products?sub={{ $subTag }}" class="flex items-center gap-2 text-sm {{ request('sub') === $subTag ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary' }} transition-colors">
+                                        <div class="w-1.5 h-1.5 rounded-full {{ request('sub') === $subTag ? 'bg-primary' : 'bg-gray-200' }}"></div>
+                                        {{ $subName }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Thiết bị văn phòng</h4>
+                            <div class="space-y-2">
+                                @php
+                                    $officeSubCats = [
+                                        'sub-cham-cong' => 'Máy chấm công',
+                                        'sub-huy-giay' => 'Máy hủy giấy',
+                                        'sub-in-bill' => 'Máy in bill',
+                                        'sub-scan' => 'Máy quét/scanner',
+                                        'sub-chieu' => 'Máy chiếu',
+                                        'sub-khac' => 'Thiết bị khác',
+                                    ];
+                                @endphp
+                                @foreach($officeSubCats as $subTag => $subName)
+                                    <a href="/products?sub={{ $subTag }}" class="flex items-center gap-2 text-sm {{ request('sub') === $subTag ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary' }} transition-colors">
+                                        <div class="w-1.5 h-1.5 rounded-full {{ request('sub') === $subTag ? 'bg-primary' : 'bg-gray-200' }}"></div>
+                                        {{ $subName }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Mực in & Toner</h4>
+                            <div class="space-y-2">
+                                @php
+                                    $inkSubCats = [
+                                        'sub-avp' => 'AVP',
+                                        'sub-hp' => 'HP',
+                                        'sub-epson' => 'Epson',
+                                        'sub-oki' => 'Oki',
+                                        'sub-canon' => 'Canon',
+                                        'sub-brother' => 'Brother',
+                                        'sub-ricoh' => 'Ricoh',
+                                    ];
+                                @endphp
+                                @foreach($inkSubCats as $subTag => $subName)
+                                    <a href="/products?sub={{ $subTag }}" class="flex items-center gap-2 text-sm {{ request('sub') === $subTag ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary' }} transition-colors">
+                                        <div class="w-1.5 h-1.5 rounded-full {{ request('sub') === $subTag ? 'bg-primary' : 'bg-gray-200' }}"></div>
+                                        {{ $subName }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Price Filter -->
-                <div class="filter-section">
-                    <h3>
-                        <span class="filter-title-icon">💰</span>
-                        Price Range
-                    </h3>
-                    <div class="filter-item">
-                        <input type="checkbox" id="price-all" checked>
-                        <label for="price-all">All Prices</label>
-                    </div>
-                    <div class="filter-item">
-                        <input type="checkbox" id="price-low">
-                        <label for="price-low">Under $100</label>
-                    </div>
-                    <div class="filter-item">
-                        <input type="checkbox" id="price-mid">
-                        <label for="price-mid">$100 - $500</label>
-                    </div>
-                    <div class="filter-item">
-                        <input type="checkbox" id="price-high">
-                        <label for="price-high">$500+</label>
-                    </div>
-                </div>
-
-                <!-- Status Filter -->
-                <div class="filter-section">
-                    <h3>
-                        <span class="filter-title-icon">✓</span>
-                        Status
-                    </h3>
-                    <div class="filter-item">
-                        <input type="checkbox" id="status-all" checked>
-                        <label for="status-all">All Products</label>
-                    </div>
-                    <div class="filter-item">
-                        <input type="checkbox" id="status-stock">
-                        <label for="status-stock">In Stock</label>
-                    </div>
-                    <div class="filter-item">
-                        <input type="checkbox" id="status-pre">
-                        <label for="status-pre">Pre-Order</label>
-                    </div>
-                </div>
             </aside>
 
             <!-- Products Grid -->
@@ -733,7 +862,14 @@
                                 </div>
                                 <div class="product-content">
                                     <span class="product-category">Product</span>
-                                    <h3 class="product-title">{{ $product->title }}</h3>
+                                    <h3 class="product-title !mb-0 !text-base">{{ $product->title }}</h3>
+                                    @if(isset($product->specs) && $product->specs)
+                                        <div class="mb-3">
+                                            <p class="text-xs text-gray-500 font-medium leading-tight">
+                                                {{ $product->specs }}
+                                            </p>
+                                        </div>
+                                    @endif
                                     <p class="product-description">
                                         {{ Str::limit($product->description, 100) }}
                                     </p>

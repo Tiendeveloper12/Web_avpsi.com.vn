@@ -1,0 +1,50 @@
+QUERY: Ổ cứng SSD/ HDD -> NOT FOUND
+
+QUERY: Mainboard
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	title	tags
+28	Mainboard 	,linh-kien
+
+QUERY: Switch
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	title	tags
+27	Switch 	,linh-kien
+
+QUERY: Màn Hình Vi Tính - LCD -> ERROR: 'charmap' codec can't decode byte 0x8d in position 105: character maps to <undefined>
+
+QUERY: Nguồn Arrow 500w -> NOT FOUND
+
+QUERY: Phần Mềm Diệt Virus Kaspersky -> NOT FOUND
+
+QUERY: Bộ Bàn phím và chuột Logitech -> NOT FOUND
+
+QUERY: ộ Bàn phím và chuột Dell -> NOT FOUND
+
+QUERY: Bộ phát Wifi 4G TP-Link M7350 -> NOT FOUND
+
+QUERY: Tai nghe HP
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	title	tags
+15	Tai nghe HP	,linh-kien
+
+QUERY: Core i3 - 9100
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	title	tags
+14	Core i3 - 9100	,linh-kien
+
+QUERY: Ram Kingmax
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	title	tags
+13	Ram Kingmax	,linh-kien
+
+QUERY: Ram (Bộ nhớ trong) -> NOT FOUND
+
+QUERY: Nhân RJ45
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	title	tags
+11	Nhƒn RJ45  	,linh-kien
+
+QUERY: Box 2.5 Urgreen
+mysql: [Warning] Using a password on the command line interface can be insecure.
+id	title	tags
+10	Box 2.5 Urgreen	,linh-kien

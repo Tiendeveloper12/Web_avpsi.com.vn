@@ -1,612 +1,156 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ $product->title }} - AVP</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --color-primary: #2FAA4E;
-            --color-primary-dark: #1F7A35;
-            --color-primary-light: #4DBF64;
-            --color-accent: #E31E24;
-            --color-warning: #FFC107;
-            --color-dark: #1a1a1a;
-            --color-light: #f8f9fa;
-            --color-text: #333333;
-            --color-text-light: #666666;
-            --color-border: #e0e0e0;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--color-text);
-            background: #ffffff;
-            line-height: 1.6;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-        }
-
-        /* Navigation */
-        nav {
-            background: white;
-            border-bottom: 1px solid var(--color-border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 75px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-family: 'Poppins', sans-serif;
-            letter-spacing: -0.5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 35px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--color-text);
-            font-weight: 500;
-            font-size: 14px;
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--color-primary);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-warning));
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-right {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .phone-badge {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: rgba(227, 30, 36, 0.08);
-            border-radius: 25px;
-            color: var(--color-accent);
-            font-weight: 600;
-            font-size: 13px;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .phone-badge:hover {
-            background: rgba(227, 30, 36, 0.15);
-            transform: translateY(-2px);
-        }
-
-        /* Page Header */
-        .page-header {
-            background: linear-gradient(135deg, #ffffff 0%, var(--color-light) 100%);
-            padding: 60px 40px;
-            border-bottom: 1px solid var(--color-border);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .page-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(47, 170, 78, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
-        }
-
-        .header-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .page-header h1 {
-            font-size: 44px;
-            margin-bottom: 12px;
-            color: var(--color-dark);
-        }
-
-        .page-header p {
-            font-size: 16px;
-            color: var(--color-text-light);
-            max-width: 600px;
-        }
-
-        /* Main Content */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 60px 40px;
-        }
-
-        /* Breadcrumb */
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 40px;
-            font-size: 14px;
-            color: var(--color-text-light);
-        }
-
-        .breadcrumb a {
-            color: var(--color-primary);
-            text-decoration: none;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .breadcrumb a:hover {
-            color: var(--color-primary-dark);
-        }
-
-        /* Product Detail Section */
-        .product-detail-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: start;
-        }
-
-        .product-image-section {
-            background: linear-gradient(135deg, rgba(47, 170, 78, 0.1), rgba(255, 193, 7, 0.1));
-            border-radius: 16px;
-            padding: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 400px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--color-border);
-        }
-
-        .product-image-section::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
-            pointer-events: none;
-        }
-
-        .product-image-icon {
-            font-size: 120px;
-            opacity: 0.8;
-            z-index: 1;
-        }
-
-        .product-info-section {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-category {
-            font-size: 12px;
-            color: var(--color-primary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
-        }
-
-        .product-title {
-            font-size: 42px;
-            font-weight: 700;
-            color: var(--color-dark);
-            margin-bottom: 24px;
-            line-height: 1.3;
-        }
-
-        .product-price {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--color-primary);
-            margin-bottom: 32px;
-            padding-bottom: 32px;
-            border-bottom: 2px solid var(--color-border);
-        }
-
-        .product-description {
-            font-size: 16px;
-            color: var(--color-text-light);
-            line-height: 1.8;
-            margin-bottom: 40px;
-        }
-
-        .product-details {
-            background: var(--color-light);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 40px;
-            border: 1px solid var(--color-border);
-        }
-
-        .product-details h3 {
-            font-size: 16px;
-            color: var(--color-dark);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .product-details-content {
-            font-size: 14px;
-            color: var(--color-text);
-            line-height: 1.8;
-        }
-
-        .product-details-content h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 16px;
-            margin-bottom: 8px;
-            color: var(--color-dark);
-        }
-
-        .product-details-content p {
-            margin-bottom: 12px;
-        }
-
-        .product-details-content ul {
-            margin-left: 20px;
-            margin-bottom: 12px;
-        }
-
-        .product-details-content li {
-            margin-bottom: 8px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 40px;
-        }
-
-        .btn {
-            padding: 14px 32px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(47, 170, 78, 0.3);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: var(--color-primary);
-            border: 2px solid var(--color-primary);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(47, 170, 78, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--color-primary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 40px;
-            transition: var(--transition);
-        }
-
-        .back-link:hover {
-            color: var(--color-primary-dark);
-            gap: 12px;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--color-dark);
-            color: white;
-            padding: 60px 40px 30px;
-            margin-top: 80px;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-section h4 {
-            font-family: 'Poppins', sans-serif;
-            margin-bottom: 16px;
-            font-size: 16px;
-            color: var(--color-warning);
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 12px;
-        }
-
-        .footer-section a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 14px;
-            transition: var(--transition);
-        }
-
-        .footer-section a:hover {
-            color: var(--color-warning);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 30px;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .product-detail-wrapper {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .product-title {
-                font-size: 32px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .container {
-                padding: 40px 20px;
-            }
-
-            .nav-container {
-                padding: 0 20px;
-            }
-
-            .product-image-section {
-                min-height: 300px;
-                padding: 30px;
-            }
-
-            .product-image-icon {
-                font-size: 80px;
-            }
-
-            .product-title {
-                font-size: 28px;
-            }
-
-            .product-price {
-                font-size: 24px;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .page-header h1 {
-                font-size: 32px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .page-header {
-                padding: 40px 20px;
-            }
-
-            .page-header h1 {
-                font-size: 24px;
-            }
-
-            .product-title {
-                font-size: 22px;
-            }
-
-            .product-price {
-                font-size: 20px;
-            }
-
-            .container {
-                padding: 30px 16px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <a href="/" class="logo">AVP</a>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/products">Products</a></li>
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="/gallery">Gallery</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-            <div class="nav-right">
-                <a href="/contact" class="phone-badge">📞 Call Us</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Page Header -->
-    <section class="page-header">
-        <div class="header-container">
-            <h1>Product Details</h1>
-            <p>Discover comprehensive information about this product and how it can benefit you.</p>
-        </div>
-    </section>
-
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Breadcrumb -->
-        <a href="/products" class="back-link">← Back to Products</a>
-
-        <!-- Product Detail Section -->
-        <div class="product-detail-wrapper">
-            <!-- Product Image -->
-            <div class="product-image-section">
-                <div class="product-image-icon">📦</div>
-            </div>
-
-            <!-- Product Info -->
-            <div class="product-info-section">
-                <div class="product-category">Product</div>
-                <h1 class="product-title">{{ $product->title }}</h1>
-                <!-- <div class="product-price">${{ $product->price ?? 'Contact for pricing' }}</div> -->
-
-                <p class="product-description">
-                    {{ $product->description }}
-                </p>
-
-                <!-- Product Details -->
-                <div class="product-details">
-                    <h3>📋 Product Details</h3>
-                    <div class="product-details-content">
-                        {!! $product->content !!}
+@extends('layouts.app')
+
+@section('title', $product->title . ' - Âu Việt Phát')
+
+@section('content')
+    <div class="bg-surface py-8">
+        <div class="container-custom">
+            <!-- Breadcrumb -->
+            <nav class="flex mb-8 text-sm" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                    <li class="inline-flex items-center">
+                        <a href="/" class="text-gray-500 hover:text-primary transition-colors flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                            Trang chủ
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                            <a href="/products" class="ml-1 text-gray-500 hover:text-primary transition-colors md:ml-2">Sản phẩm</a>
+                        </div>
+                    </li>
+                    <li aria-current="page">
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                            <span class="ml-1 text-primary font-medium md:ml-2 line-clamp-1">{{ $product->title }}</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 p-6 md:p-12">
+                    <!-- Left: Product Image -->
+                    <div class="flex flex-col h-full">
+                        <div class="aspect-square bg-gray-50 rounded-2xl p-8 flex items-center justify-center border border-gray-100 overflow-hidden group h-full">
+                            @php
+                                $detailImagePath = $product->image;
+                                if (in_array($product->id, [73, 74, 75, 76, 77]) && str_contains($detailImagePath, '.jpg') && !str_contains($detailImagePath, '_480')) {
+                                    $detailImagePath = str_replace('.jpg', '_480.jpg', $detailImagePath);
+                                }
+                            @endphp
+                            <img src="{{ $product->image ? asset('images/products/' . $detailImagePath) : 'https://placehold.co/800x800?text=Sản+Phẩm' }}" 
+                                 alt="{{ $product->title }}" 
+                                 class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                    </div>
+
+                    <!-- Right: Product Info -->
+                    <div class="flex flex-col">
+                        <div class="mb-4">
+                            <span class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                                Mới
+                            </span>
+                        </div>
+                        
+                        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
+                            {{ $product->title }}
+                        </h1>
+
+                        @if(isset($product->specs) && $product->specs)
+                            <div class="mb-8">
+                                <p class="text-lg text-gray-800 font-bold leading-relaxed">
+                                    {{ $product->specs }}
+                                </p>
+                            </div>
+                        @endif
+
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="flex text-highlight">
+                                @for($i = 0; $i < 5; $i++)
+                                    <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                @endfor
+                            </div>
+                            <span class="text-sm text-gray-500 font-medium">| 100+ Đã bán</span>
+                        </div>
+
+                        <div class="mb-10">
+                            <div class="flex items-baseline gap-4">
+                                <p class="text-4xl font-extrabold text-primary">0.000.000đ</p>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-2 italic">* Giá đã bao gồm thuế VAT</p>
+
+                            @if(isset($product->description) && $product->description)
+                                <div class="mt-8">
+                                    <p class="text-gray-600 leading-relaxed text-lg">
+                                        {{ $product->description }}
+                                    </p>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 mt-auto">
+                            <button class="flex-grow bg-primary hover:bg-primary-dark text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                THÊM VÀO GIỎ HÀNG
+                            </button>
+                            <button class="bg-secondary hover:bg-secondary/90 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg shadow-secondary/20 flex items-center justify-center gap-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                                LIÊN HỆ TƯ VẤN
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="btn btn-primary">Add to Cart</button>
-                    <button class="btn btn-secondary">Request Information</button>
+                <!-- Product Details Tabs -->
+                <div class="border-t border-gray-100">
+                    <div class="flex border-b border-gray-100">
+                        <button class="px-8 py-5 text-sm font-bold text-primary border-b-2 border-primary">Mô tả sản phẩm</button>
+                        <button class="px-8 py-5 text-sm font-bold text-gray-500 hover:text-dark transition-colors">Thông số kỹ thuật</button>
+                        <button class="px-8 py-5 text-sm font-bold text-gray-500 hover:text-dark transition-colors">Đánh giá (0)</button>
+                    </div>
+                    <div class="p-6 md:p-12">
+                        <div class="prose prose-primary max-w-none">
+                            @if(isset($product->description) && $product->description)
+                                <div class="mb-10">
+                                    <h3 class="text-xl font-bold text-gray-900 mb-4">Tổng quan sản phẩm</h3>
+                                    <p class="text-gray-600 leading-relaxed text-lg">
+                                        {{ $product->description }}
+                                    </p>
+                                </div>
+                            @endif
+
+                            @if(isset($product->content) && $product->content)
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-4">Chi tiết tính năng</h3>
+                                    <div class="text-gray-600 space-y-4">
+                                        {!! $product->content !!}
+                                    </div>
+                                </div>
+                            @else
+                                <div class="bg-gray-50 rounded-2xl p-10 text-center border-2 border-dashed border-gray-200">
+                                    <p class="text-gray-400 font-medium">Đang cập nhật nội dung chi tiết cho sản phẩm này...</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Products Placeholder -->
+            <div class="mt-16">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-2 h-8 bg-highlight rounded-full"></div>
+                    <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Sản phẩm tương tự</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <div class="bg-white/50 rounded-2xl h-80 border-2 border-dashed border-gray-200 flex items-center justify-center">
+                        <p class="text-gray-400 text-sm italic">Hệ thống đang đề xuất sản phẩm...</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>About AVP</h4>
-                <p style="color: rgba(255, 255, 255, 0.7); font-size: 14px; margin-top: 12px;">Your trusted partner for quality products and exceptional service since day one.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Products</h4>
-                <ul>
-                    <li><a href="/products">All Products</a></li>
-                    <li><a href="/products">Featured</a></li>
-                    <li><a href="/products">New Arrivals</a></li>
-                    <li><a href="/products">Best Sellers</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="/">About Us</a></li>
-                    <li><a href="/">Careers</a></li>
-                    <li><a href="/">Blog</a></li>
-                    <li><a href="/">Press</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="/contact">Contact Us</a></li>
-                    <li><a href="/">FAQ</a></li>
-                    <li><a href="/">Help Center</a></li>
-                    <li><a href="/">Privacy Policy</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 AVP. All rights reserved. | Our Mission is Satisfy Your Needing</p>
-        </div>
-    </footer>
-</body>
-</html>
+@endsection

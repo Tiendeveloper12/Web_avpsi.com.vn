@@ -9,36 +9,53 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        // Base query
-        $query = DB::table('product');
+        $sub = $request->input('sub');
+        $brand = $request->input('brand');
+
+        // Base query with join for price
+        $query = DB::table('product')
+            ->leftJoin('variant', 'product.id', '=', 'variant.product_id')
+            ->select('product.*', 'variant.price as variant_price', 'variant.price as sell');
 
         // Search filter
         if ($request->has('search')) {
             $search = $request->input('search');
-            $query->where('title', 'like', '%' . $search . '%')
-                  ->orWhere('description', 'like', '%' . $search . '%');
+            $query->where(function($q) use ($search) {
+                $q->where('product.title', 'like', '%' . $search . '%')
+                  ->orWhere('product.description', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Sub-category filter
+        if ($sub) {
+            $query->where('product.tags', 'like', '%' . $sub . '%');
+        }
+
+        // Brand filter
+        if ($brand) {
+            $query->where('product.tags', 'like', '%' . $brand . '%');
         }
 
         // Sort
         $sort = $request->input('sort', 'newest');
         switch ($sort) {
             case 'price_asc':
-                $query->orderBy('price', 'asc');
+                $query->orderBy('variant.price', 'asc');
                 break;
             case 'price_desc':
-                $query->orderBy('price', 'desc');
+                $query->orderBy('variant.price', 'desc');
                 break;
             case 'popular':
-                $query->orderBy('views', 'desc');
+                $query->orderBy('product.view', 'desc');
                 break;
             case 'newest':
             default:
-                $query->orderBy('created_at', 'desc');
+                $query->orderBy('product.created_at', 'desc');
                 break;
         }
 
         // Get products
-        $products = $query->paginate(12); // 12 products per page
+        $products = $query->paginate(12)->withQueryString();
 
         return view('products.index', ['products' => $products]);
     }
@@ -47,5 +64,65 @@ class ProductController extends Controller
     {
         $product = DB::table('product')->where('id', $id)->first();
         return view('products.show', ['product' => $product]);
+    }
+
+    public function category($slug)
+    {
+        // Mapping slug to display title
+        $categoryTitles = [
+            'may-photocopy' => 'Máy Photocopy',
+            'muc-in' => 'Mực In',
+            'may-in' => 'Máy In',
+            'laptop-macbook' => 'Laptop / Macbook',
+            'may-tinh-de-ban' => 'Máy tính để bàn',
+            'linh-kien-may-tinh' => 'Linh kiện máy tính',
+            'thiet-bi-van-phong' => 'Thiết bị văn phòng',
+            'thiet-bi-mang' => 'Thiết bị mạng',
+            'camera-an-ninh' => 'Camera an ninh',
+            'dich-vu' => 'Dịch vụ',
+        ];
+
+        $title = $categoryTitles[$slug] ?? 'Danh mục sản phẩm';
+        
+        // Map slug to database tag (simplified mapping for now)
+        $tagMapping = [
+            'may-photocopy' => 'photocopy',
+            'muc-in' => 'muc',
+            'may-in' => 'printer',
+            'laptop-macbook' => 'laptop',
+            'may-tinh-de-ban' => 'pc',
+            'linh-kien-may-tinh' => 'linh-kien',
+            'thiet-bi-van-phong' => 'van-phong',
+            'thiet-bi-mang' => 'internet',
+            'camera-an-ninh' => 'camera',
+            'dich-vu' => 'service',
+        ];
+
+        $tag = $tagMapping[$slug] ?? $slug;
+        $sub = request('sub');
+        $brand = request('brand');
+
+        // Fetch products with matching tags and join with variant for price
+        $query = DB::table('product')
+            ->leftJoin('variant', 'product.id', '=', 'variant.product_id')
+            ->where('product.tags', 'like', '%' . $tag . '%')
+            ->select('product.*', 'variant.price as variant_price', 'variant.price as sell')
+            ->orderBy('product.created_at', 'desc');
+
+        if ($sub) {
+            $query->where('product.tags', 'like', '%' . $sub . '%');
+        }
+
+        if ($brand) {
+            $query->where('product.tags', 'like', '%' . $brand . '%');
+        }
+
+        $products = $query->paginate(12)->withQueryString();
+
+        return view('products.category', [
+            'title' => $title,
+            'slug' => $slug,
+            'products' => $products
+        ]);
     }
 }

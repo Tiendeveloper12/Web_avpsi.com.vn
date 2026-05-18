@@ -6,21 +6,40 @@
             image: '{{ asset('images/banners/banner_photocopy.png') }}',
             title: 'Giải Pháp Photocopy Chuyên Nghiệp',
             subtitle: 'Dịch vụ cho thuê và bán máy photocopy Ricoh chính hãng, hiệu suất cao cho doanh nghiệp.',
-            badge: 'SẢN PHẨM MỚI'
+            badge: 'SẢN PHẨM MỚI',
+            buttonText: 'Chi tiết'
         },
         { 
             id: 2, 
-            image: null,
-            title: 'Banner Quảng Cáo 2',
-            subtitle: 'Nội dung quảng cáo cho slide số 2. Sẵn sàng để thay thế bằng hình ảnh của bạn.',
-            badge: 'KHUYẾN MÃI'
+            image: '{{ asset('images/banners/banner_ink.png') }}',
+            title: 'Mực In Chính Hãng - Chất Lượng Cao',
+            subtitle: 'Cung cấp đầy đủ các loại mực in cho máy HP, Canon, Brother, Ricoh.',
+            badge: 'PHỤ KIỆN',
+            buttonText: 'Mua ngay'
         },
         { 
             id: 3, 
-            image: null,
-            title: 'Banner Quảng Cáo 3',
-            subtitle: 'Nội dung quảng cáo cho slide số 3. Sẵn sàng để thay thế bằng hình ảnh của bạn.',
-            badge: 'TIN TỨC'
+            image: '{{ asset('images/banners/banner_printer.png') }}',
+            title: 'Máy In Văn Phòng Chuyên Nghiệp',
+            subtitle: 'Phân phối các dòng máy in Canon, HP, Brother giá tốt nhất.',
+            badge: 'MÁY IN',
+            buttonText: 'Mua ngay'
+        },
+        { 
+            id: 4, 
+            image: '{{ asset('images/banners/banner_devices.png') }}',
+            title: 'Thiết Bị Văn Phòng Hiện Đại',
+            subtitle: 'Laptop, PC, Màn hình và giải pháp công nghệ toàn diện cho doanh nghiệp.',
+            badge: 'THIẾT BỊ',
+            buttonText: 'Mua Ngay'
+        },
+        { 
+            id: 5, 
+            image: '{{ asset('images/banners/banner_accessories.png') }}',
+            title: 'Linh Kiện & Phụ Kiện Máy Tính',
+            subtitle: 'Chuột, bàn phím, tai nghe và linh kiện nâng cấp chính hãng.',
+            badge: 'PHỤ KIỆN',
+            buttonText: 'Mua ngay'
         }
     ],
     autoPlay() {
@@ -28,7 +47,7 @@
             this.activeSlide = this.activeSlide === this.slides.length ? 1 : this.activeSlide + 1;
         }, 6000);
     }
-}" x-init="autoPlay()" class="relative overflow-hidden bg-gray-100 shadow-premium h-[480px] lg:h-[600px]">
+}" x-init="autoPlay()" class="relative overflow-hidden rounded-xl bg-gray-100 shadow-[0_30px_100px_-15px_rgba(0,0,0,0.25)] h-[480px] lg:h-[600px] border border-gray-100">
     
     <!-- Slides -->
     <template x-for="slide in slides" :key="slide.id">
@@ -54,7 +73,7 @@
                 <!-- Hover Actions -->
                 <div class="relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
                     <button class="bg-white text-dark px-12 py-4 rounded-full font-black text-xl shadow-2xl hover:bg-primary hover:text-white transition-all transform hover:scale-110 flex items-center gap-3 uppercase tracking-tighter">
-                        Chi tiết
+                        <span x-text="slide.buttonText"></span>
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
                 </div>

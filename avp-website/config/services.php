@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'apify' => [
+        'key' => env('APIFY_API_KEY'),
+    ],
+
+    'firecrawl' => [
+        'key' => env('FIRECRAWL_API_KEY'),
+    ],
+
 ];
