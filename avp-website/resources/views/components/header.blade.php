@@ -87,8 +87,8 @@
                 </li>
                 @php
                     $menus = [
-                        ['title' => 'TEMP', 'url' => '/'],
-                        ['title' => 'TEMP', 'url' => '#'],
+                        ['title' => 'Trang chủ', 'url' => '/'],
+                        ['title' => 'Sản phẩm', 'url' => route('products.index')],
                         ['title' => 'TEMP', 'url' => '#'],
                         ['title' => 'TEMP', 'url' => '#'],
                         ['title' => 'TEMP', 'url' => '#'],

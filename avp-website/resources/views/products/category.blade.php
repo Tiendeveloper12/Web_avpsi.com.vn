@@ -58,7 +58,7 @@
                                         @php
                                             $subCats = [
                                                 'sub-router' => 'Bộ định tuyến Wifi',
-                                                'sub-cable' => 'Dây cáp Internet',
+                                                'sub-cable' => 'Dây cáp internet',
                                                 'sub-switch' => 'Bộ chuyển mạch (Switch)',
                                             ];
                                         @endphp
@@ -296,6 +296,34 @@
                                                 {{ $subName }}
                                             </a>
                                         @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if($slug === 'camera-an-ninh')
+                                <div class="space-y-6">
+                                    <div>
+                                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Thương hiệu</h4>
+                                        <div class="space-y-2">
+                                            @php
+                                                $subCats = [
+                                                    'sub-hikvision' => 'Hikvision',
+                                                    'sub-imou' => 'IMOU',
+                                                    'sub-evi' => 'EVI',
+                                                    'sub-khac' => 'Khác',
+                                                ];
+                                            @endphp
+                                            <a href="/category/camera-an-ninh" class="flex items-center gap-2 text-sm {{ !request('sub') ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary' }} transition-colors">
+                                                <div class="w-1.5 h-1.5 rounded-full {{ !request('sub') ? 'bg-primary' : 'bg-gray-200' }}"></div>
+                                                Tất cả thiết bị
+                                            </a>
+                                            @foreach($subCats as $subTag => $subName)
+                                                <a href="/category/camera-an-ninh?sub={{ $subTag }}" class="flex items-center gap-2 text-sm {{ request('sub') === $subTag ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary' }} transition-colors">
+                                                    <div class="w-1.5 h-1.5 rounded-full {{ request('sub') === $subTag ? 'bg-primary' : 'bg-gray-200' }}"></div>
+                                                    {{ $subName }}
+                                                </a>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             @endif

@@ -7,7 +7,8 @@
             title: 'Giải Pháp Photocopy Chuyên Nghiệp',
             subtitle: 'Dịch vụ cho thuê và bán máy photocopy Ricoh chính hãng, hiệu suất cao cho doanh nghiệp.',
             badge: 'SẢN PHẨM MỚI',
-            buttonText: 'Chi tiết'
+            buttonText: 'Chi tiết',
+            link: '/category/may-photocopy'
         },
         { 
             id: 2, 
@@ -15,7 +16,8 @@
             title: 'Mực In Chính Hãng - Chất Lượng Cao',
             subtitle: 'Cung cấp đầy đủ các loại mực in cho máy HP, Canon, Brother, Ricoh.',
             badge: 'PHỤ KIỆN',
-            buttonText: 'Mua ngay'
+            buttonText: 'Mua ngay',
+            link: '/category/muc-in'
         },
         { 
             id: 3, 
@@ -23,7 +25,8 @@
             title: 'Máy In Văn Phòng Chuyên Nghiệp',
             subtitle: 'Phân phối các dòng máy in Canon, HP, Brother giá tốt nhất.',
             badge: 'MÁY IN',
-            buttonText: 'Mua ngay'
+            buttonText: 'Mua ngay',
+            link: '/category/may-in'
         },
         { 
             id: 4, 
@@ -31,7 +34,8 @@
             title: 'Thiết Bị Văn Phòng Hiện Đại',
             subtitle: 'Laptop, PC, Màn hình và giải pháp công nghệ toàn diện cho doanh nghiệp.',
             badge: 'THIẾT BỊ',
-            buttonText: 'Mua Ngay'
+            buttonText: 'Mua Ngay',
+            link: '/category/may-tinh-de-ban'
         },
         { 
             id: 5, 
@@ -39,7 +43,8 @@
             title: 'Linh Kiện & Phụ Kiện Máy Tính',
             subtitle: 'Chuột, bàn phím, tai nghe và linh kiện nâng cấp chính hãng.',
             badge: 'PHỤ KIỆN',
-            buttonText: 'Mua ngay'
+            buttonText: 'Mua ngay',
+            link: '/category/linh-kien-may-tinh'
         }
     ],
     autoPlay() {
@@ -72,10 +77,10 @@
 
                 <!-- Hover Actions -->
                 <div class="relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                    <button class="bg-white text-dark px-12 py-4 rounded-full font-black text-xl shadow-2xl hover:bg-primary hover:text-white transition-all transform hover:scale-110 flex items-center gap-3 uppercase tracking-tighter">
+                    <a :href="slide.link" class="bg-white text-dark px-12 py-4 rounded-full font-black text-xl shadow-2xl hover:bg-primary hover:text-white transition-all transform hover:scale-110 flex items-center gap-3 uppercase tracking-tighter">
                         <span x-text="slide.buttonText"></span>
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

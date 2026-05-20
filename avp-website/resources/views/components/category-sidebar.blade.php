@@ -134,13 +134,22 @@
                         'title' => 'Thiết bị mạng', 
                         'slug' => 'thiet-bi-mang',
                         'icon' => '🌐', 
-                        'subcategories' => ['Bộ phát Wifi', 'Switch', 'Cáp mạng']
+                        'subcategories' => [
+                            ['name' => 'Bộ định tuyến Wifi', 'slug' => 'sub-router'],
+                            ['name' => 'Bộ chuyển mạch (Switch)', 'slug' => 'sub-switch'],
+                            ['name' => 'Dây cáp internet', 'slug' => 'sub-cable']
+                        ]
                     ],
                     [
                         'title' => 'Camera an ninh', 
                         'slug' => 'camera-an-ninh',
                         'icon' => '📹', 
-                        'subcategories' => ['Camera IP', 'Trọn bộ Camera', 'Đầu ghi hình', 'Phụ kiện Camera', 'Dịch vụ lắp đặt']
+                        'subcategories' => [
+                            ['name' => 'Hikvision', 'slug' => 'sub-hikvision'],
+                            ['name' => 'IMOU', 'slug' => 'sub-imou'],
+                            ['name' => 'EVI', 'slug' => 'sub-evi'],
+                            ['name' => 'Khác', 'slug' => 'sub-khac']
+                        ]
                     ],
                     [
                         'title' => 'Dịch vụ', 

@@ -64,17 +64,17 @@
         
         <div class="flex items-end justify-between">
             <div>
-                @if($product->sell > 0)
-                    <p class="text-lg font-extrabold text-primary">{{ number_format($product->sell, 0, ',', '.') }}đ</p>
-                @else
+                @if($isPhotocopy)
                     <p class="text-lg font-extrabold text-secondary uppercase text-sm">Liên hệ</p>
+                @else
+                    <p class="text-lg font-extrabold text-primary">0.000.000 đ</p>
                 @endif
             </div>
             <button class="bg-secondary/10 text-secondary p-2 rounded-lg hover:bg-secondary hover:text-white transition-all shadow-sm">
-                @if($product->sell > 0)
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                @else
+                @if($isPhotocopy)
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                @else
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 @endif
             </button>
         </div>
