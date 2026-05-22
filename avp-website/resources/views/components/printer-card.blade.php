@@ -42,10 +42,10 @@
             @if($isPhotocopier)
                 <!-- Simplified Contact Button for Photocopiers -->
                 <div class="pt-2">
-                    <button class="w-full py-3 bg-secondary text-white rounded-lg text-sm font-bold shadow-md hover:bg-dark transition-all transform active:scale-95 flex items-center justify-center gap-2">
+                    <a href="https://zalo.me/0912979394" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-secondary text-white rounded-lg text-sm font-bold shadow-md hover:bg-dark transition-all transform active:scale-95 flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                         Liên hệ
-                    </button>
+                    </a>
                 </div>
             @else
                 <!-- Buy Option -->
@@ -54,9 +54,15 @@
                         <span class="text-xs font-bold text-primary uppercase">Giá Mua</span>
                         <span class="text-lg font-black text-primary">{{ number_format($printer->variant_price, 0, ',', '.') }}đ</span>
                     </div>
-                    <button class="w-full py-2 bg-primary text-white rounded-lg text-sm font-bold shadow-md hover:bg-dark transition-all transform active:scale-95">
-                        Mua ngay
-                    </button>
+                    <form action="{{ route('cart.add') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $printer->id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <input type="hidden" name="redirect_to_cart" value="1">
+                        <button type="submit" class="w-full py-2 bg-primary text-white rounded-lg text-sm font-bold shadow-md hover:bg-dark transition-all transform active:scale-95 cursor-pointer">
+                            Mua ngay
+                        </button>
+                    </form>
                 </div>
 
                 <!-- Hire Option -->
@@ -65,9 +71,9 @@
                         <span class="text-xs font-bold text-secondary uppercase">Thuê Máy</span>
                         <span class="text-lg font-black text-secondary">Liên hệ</span>
                     </div>
-                    <button class="w-full py-2 bg-secondary text-white rounded-lg text-sm font-bold shadow-md hover:bg-dark transition-all transform active:scale-95">
+                    <a href="https://zalo.me/0912979394" target="_blank" rel="noopener noreferrer" class="w-full py-2 bg-secondary text-white rounded-lg text-sm font-bold shadow-md hover:bg-dark transition-all transform active:scale-95 flex items-center justify-center">
                         Đăng ký thuê
-                    </button>
+                    </a>
                 </div>
             @endif
         </div>

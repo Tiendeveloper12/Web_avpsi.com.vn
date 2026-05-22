@@ -50,6 +50,10 @@ class ProductController extends Controller
                 break;
             case 'newest':
             default:
+                if ($request->has('search') && !empty($request->input('search'))) {
+                    $search = $request->input('search');
+                    $query->orderByRaw("CASE WHEN product.title LIKE ? THEN 1 ELSE 0 END DESC", ['%' . $search . '%']);
+                }
                 $query->orderBy('product.created_at', 'desc');
                 break;
         }
@@ -62,8 +66,36 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = DB::table('product')->where('id', $id)->first();
-        return view('products.show', ['product' => $product]);
+        $product = DB::table('product')
+            ->leftJoin('variant', 'product.id', '=', 'variant.product_id')
+            ->where('product.id', $id)
+            ->select('product.*', 'variant.price as variant_price', 'variant.price as sell')
+            ->first();
+
+        // Fetch similar products based on shared tags
+        $relatedProducts = collect();
+        if (!empty($product->tags)) {
+            $tags = array_filter(array_map('trim', explode(',', $product->tags)));
+            if (!empty($tags)) {
+                $query = DB::table('product')
+                    ->leftJoin('variant', 'product.id', '=', 'variant.product_id')
+                    ->where('product.id', '!=', $product->id)
+                    ->select('product.*', 'variant.price as variant_price', 'variant.price as sell');
+
+                $query->where(function ($q) use ($tags) {
+                    foreach ($tags as $tag) {
+                        $q->orWhere('product.tags', 'like', '%' . $tag . '%');
+                    }
+                });
+
+                $relatedProducts = $query
+                    ->orderBy('product.created_at', 'desc')
+                    ->limit(5)
+                    ->get();
+            }
+        }
+
+        return view('products.show', ['product' => $product, 'relatedProducts' => $relatedProducts]);
     }
 
     public function category($slug)
@@ -124,5 +156,26 @@ class ProductController extends Controller
             'slug' => $slug,
             'products' => $products
         ]);
+    }
+
+    public function searchJson(Request $request)
+    {
+        $search = $request->input('q');
+
+        if (!$search) {
+            return response()->json([]);
+        }
+
+        $products = DB::table('product')
+            ->leftJoin('variant', 'product.id', '=', 'variant.product_id')
+            ->where('product.title', 'like', '%' . $search . '%')
+            ->orWhere('product.description', 'like', '%' . $search . '%')
+            ->select('product.id', 'product.title', 'product.image', 'variant.price as sell')
+            ->orderByRaw("CASE WHEN product.title LIKE ? THEN 1 ELSE 0 END DESC", ['%' . $search . '%'])
+            ->orderBy('product.created_at', 'desc')
+            ->limit(6)
+            ->get();
+
+        return response()->json($products);
     }
 }

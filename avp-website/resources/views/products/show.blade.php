@@ -83,29 +83,29 @@
 
                         <div class="mb-10 border-t border-gray-100 pt-8 sm:pt-10">
                             <div class="flex items-baseline gap-4">
-                                @if(str_contains($product->tags ?? '', 'photocopy'))
+                                @if(str_contains($product->tags ?? '', 'photocopy') || !isset($product->sell) || $product->sell <= 0)
                                     <p class="text-3xl sm:text-4xl font-extrabold text-secondary uppercase">Liên hệ tư vấn</p>
                                 @else
-                                    <p class="text-4xl font-extrabold text-primary">0.000.000đ</p>
+                                    <p class="text-4xl font-extrabold text-primary">{{ number_format($product->sell, 0, ',', '.') }}đ</p>
                                 @endif
                             </div>
-                            @if(!str_contains($product->tags ?? '', 'photocopy'))
+                            @if(!str_contains($product->tags ?? '', 'photocopy') && isset($product->sell) && $product->sell > 0)
                                 <p class="text-xs text-gray-400 mt-2 italic">* Giá đã bao gồm thuế VAT</p>
                             @endif
                         </div>
 
                         <!-- Action Buttons -->
                         <div class="flex flex-col sm:flex-row gap-4 mt-auto">
-                            @if(!str_contains($product->tags ?? '', 'photocopy'))
-                                <button class="flex-grow bg-primary hover:bg-primary-dark text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                            @if(!str_contains($product->tags ?? '', 'photocopy') && isset($product->sell) && $product->sell > 0)
+                                <button onclick="addToCart({{ $product->id }}, this)" class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg shadow-primary/20 flex items-center justify-center gap-2 cursor-pointer">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                    THÊM VÀO GIỎ HÀNG
+                                    <span>THÊM VÀO GIỎ HÀNG</span>
                                 </button>
                             @endif
-                            <button class="flex-grow bg-secondary hover:bg-secondary/90 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg shadow-secondary/20 flex items-center justify-center gap-2">
+                            <a href="https://zalo.me/0912979394" target="_blank" rel="noopener noreferrer" class="flex-grow bg-secondary hover:bg-secondary/90 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg shadow-secondary/20 flex items-center justify-center gap-2">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                                 LIÊN HỆ TƯ VẤN
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -143,17 +143,23 @@
                 </div>
             </div>
 
-            <!-- Related Products Placeholder -->
+            <!-- Related Products -->
             <div class="mt-16">
                 <div class="flex items-center gap-4 mb-8">
                     <div class="w-2 h-8 bg-highlight rounded-full"></div>
-                    <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Sản phẩm tương tự</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Sản phẩm khác</h2>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                    <div class="bg-white/50 rounded-2xl h-80 border-2 border-dashed border-gray-200 flex items-center justify-center">
-                        <p class="text-gray-400 text-sm italic">Hệ thống đang đề xuất sản phẩm...</p>
+                @if($relatedProducts->count() > 0)
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                        @foreach($relatedProducts as $related)
+                            <x-product-card :product="$related" />
+                        @endforeach
                     </div>
-                </div>
+                @else
+                    <div class="bg-white/50 rounded-2xl h-40 border-2 border-dashed border-gray-200 flex items-center justify-center">
+                        <p class="text-gray-400 text-sm italic">Chưa có sản phẩm tương tự.</p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

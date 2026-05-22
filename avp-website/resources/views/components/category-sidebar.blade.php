@@ -155,7 +155,7 @@
                         'title' => 'Dịch vụ', 
                         'slug' => 'dich-vu',
                         'icon' => '🛠️', 
-                        'subcategories' => ['Bảo trì máy tính', 'Nạp mực máy in', 'Sửa chữa Laptop', 'Cho thuê máy photocopy', 'Giải pháp mạng']
+                        'subcategories' => ['Cho thuê máy photocopy', 'Nạp mực in & photocopy', 'Thiết kế, thi công hệ thống server', 'Thiết kế, thi công camera văn phòng - nhà xưởng', 'Dịch vụ sửa chữa máy photocopy - máy in', 'Dịch vụ bảo trì, sửa chữa laptop - máy tính để bàn', 'Cho thuê máy photocopy', 'Cho thuê laptop, máy tính, máy in, máy văn phòng']
                     ],
                 ];
             @endphp

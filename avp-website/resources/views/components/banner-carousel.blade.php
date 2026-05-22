@@ -52,7 +52,7 @@
             this.activeSlide = this.activeSlide === this.slides.length ? 1 : this.activeSlide + 1;
         }, 6000);
     }
-}" x-init="autoPlay()" class="relative overflow-hidden rounded-xl bg-gray-100 shadow-[0_30px_100px_-15px_rgba(0,0,0,0.25)] h-[480px] lg:h-[600px] border border-gray-100">
+}" x-init="autoPlay()" class="relative overflow-hidden rounded-xl bg-dark shadow-[0_30px_100px_-15px_rgba(0,0,0,0.25)] h-[400px] lg:h-[600px] border border-gray-100">
     
     <!-- Slides -->
     <template x-for="slide in slides" :key="slide.id">
