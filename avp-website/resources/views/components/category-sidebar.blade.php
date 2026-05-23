@@ -155,7 +155,15 @@
                         'title' => 'Dịch vụ', 
                         'slug' => 'dich-vu',
                         'icon' => '🛠️', 
-                        'subcategories' => ['Cho thuê máy photocopy', 'Nạp mực in & photocopy', 'Thiết kế, thi công hệ thống server', 'Thiết kế, thi công camera văn phòng - nhà xưởng', 'Dịch vụ sửa chữa máy photocopy - máy in', 'Dịch vụ bảo trì, sửa chữa laptop - máy tính để bàn', 'Cho thuê máy photocopy', 'Cho thuê laptop, máy tính, máy in, máy văn phòng']
+                        'subcategories' => [
+                            ['name' => 'Cho thuê máy photocopy', 'slug' => 'cho-thue-may-photocopy', 'url' => '/dich-vu/cho-thue-photocopy'],
+                            ['name' => 'Nạp mực in & photocopy', 'slug' => 'nap-muc-in-photocopy', 'url' => '/dich-vu/nap-muc-in'],
+                            ['name' => 'Thiết kế, thi công hệ thống server', 'slug' => 'he-thong-server'],
+                            ['name' => 'Thiết kế, thi công camera văn phòng - nhà xưởng', 'slug' => 'camera-van-phong'],
+                            ['name' => 'Dịch vụ sửa chữa máy photocopy - máy in', 'slug' => 'sua-chua-may-in'],
+                            ['name' => 'Dịch vụ bảo trì, sửa chữa laptop - máy tính để bàn', 'slug' => 'bao-tri-may-tinh'],
+                            ['name' => 'Cho thuê laptop, máy tính, máy in, máy văn phòng', 'slug' => 'cho-thue-thiet-bi']
+                        ]
                     ],
                 ];
             @endphp
@@ -192,7 +200,7 @@
                             
                             <div class="grid grid-cols-2 gap-x-12 gap-y-4">
                                 <template x-for="sub in cat.subcategories" :key="typeof sub === 'object' ? sub.name : sub">
-                                    <a :href="'/category/' + cat.slug + '?sub=' + (typeof sub === 'object' ? sub.slug : sub)" class="group/link flex items-center gap-3 text-gray-600 hover:text-primary transition-colors duration-200">
+                                    <a :href="sub.url ? sub.url : '/category/' + cat.slug + '?sub=' + (typeof sub === 'object' ? sub.slug : sub)" class="group/link flex items-center gap-3 text-gray-600 hover:text-primary transition-colors duration-200">
                                         <div class="w-1.5 h-1.5 rounded-full bg-gray-200 group-hover/link:bg-primary group-hover/link:scale-150 transition-all duration-300"></div>
                                         <span class="text-lg font-bold tracking-tight" x-text="typeof sub === 'object' ? sub.name : sub"></span>
                                         <svg class="w-4 h-4 opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>

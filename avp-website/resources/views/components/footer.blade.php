@@ -10,11 +10,14 @@
                     Chuyên cung cấp giải pháp công nghệ toàn diện: Laptop, PC, Máy in và linh kiện chính hãng. Dịch vụ bảo trì và sửa chữa tin học chuyên nghiệp.
                 </p>
                 <div class="flex gap-4">
-                    <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+                    <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors" title="Facebook">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                     </a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.377.505 9.377.505s7.505 0 9.377-.505a3.017 3.017 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    <a href="https://zalo.me/0912979394" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors" title="Zalo">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 3c-4.97 0-9 3.58-9 8 0 1.94.78 3.72 2.08 5.11-.12.86-.68 2.64-.78 2.94-.13.38.1.36.24.27 1.05-.68 2.82-1.92 3.73-2.52.84.28 1.76.43 2.73.43 4.97 0 9-3.58 9-8s-4.03-8-9-8zm-1 6h4v1.2l-2.6 3.1H15v1.2h-4v-1.2l2.6-3.1H11V9z"/></svg>
+                    </a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors" title="Email">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-2 4l-6 3.75L6 8V6l6 3.75L18 6v2z"/></svg>
                     </a>
                 </div>
             </div>

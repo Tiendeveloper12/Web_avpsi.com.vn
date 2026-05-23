@@ -27,6 +27,15 @@ Route::get('/gallery/{id}', [GalleryController::class, 'show'])->name('gallery.s
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+// Service routes
+Route::get('/dich-vu/nap-muc-in', function () {
+    return view('services.nap-muc-in');
+})->name('services.nap-muc-in');
+
+Route::get('/dich-vu/cho-thue-photocopy', function () {
+    return view('services.cho-thue-photocopy');
+})->name('services.cho-thue-photocopy');
+
 // Cart routes
 use App\Http\Controllers\CartController;
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

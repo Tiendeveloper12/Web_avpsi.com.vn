@@ -36,7 +36,7 @@
                     </div>
                     <div>
                         <h4 class="font-bold text-dark text-sm">BẢO HÀNH TẬN NƠI</h4>
-                        <p class="text-xs text-gray-500">Đội ngũ kỹ thuật hỗ trợ 24/7</p>
+                        <p class="text-xs text-gray-500">Đội ngũ kỹ thuật chuyên nghiệp và tận tâm</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4 group">
