@@ -162,27 +162,71 @@
                         </div>
 
                         <!-- Customer Info Form -->
-                        <div class="bg-white rounded-3xl shadow-premium border border-gray-100 p-6 md:p-8">
+                        <div x-data="addressSelector()" class="bg-white rounded-3xl shadow-premium border border-gray-100 p-6 md:p-8">
                             <h3 class="text-xl font-bold text-gray-900 mb-6">Thông tin đặt hàng</h3>
                             
-                            <form action="#" method="POST" class="space-y-4">
+                            <form @submit.prevent="submitOrder()" class="space-y-4">
                                 @csrf
                                 <div>
                                     <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Họ và tên <span class="text-primary">*</span></label>
-                                    <input type="text" name="customer_name" required placeholder="Nhập họ và tên" 
+                                    <input type="text" name="customer_name" x-model="customerName" required placeholder="Nhập họ và tên" 
                                            class="input-premium">
                                 </div>
 
                                 <div>
                                     <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Số điện thoại <span class="text-primary">*</span></label>
-                                    <input type="tel" name="customer_phone" required placeholder="Nhập số điện thoại" 
+                                    <input type="tel" name="customer_phone" x-model="customerPhone" required placeholder="Nhập số điện thoại" 
                                            class="input-premium">
                                 </div>
 
-                                <div>
-                                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Địa chỉ giao hàng <span class="text-primary">*</span></label>
-                                    <textarea name="customer_address" rows="3" required placeholder="Số nhà, tên đường, phường/xã, quận/huyện..." 
-                                              class="input-premium py-3 resize-none"></textarea>
+                                <div class="grid grid-cols-1 gap-4">
+                                    <!-- Province -->
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Tỉnh / Thành phố <span class="text-primary">*</span></label>
+                                        <select x-model="selectedProvince" @change="onProvinceChange()" required class="input-premium bg-white">
+                                            <option value="">Chọn Tỉnh / Thành phố</option>
+                                            <template x-for="prov in provinces" :key="prov.Id">
+                                                <option :value="prov.Name" x-text="prov.Name"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+
+                                    <!-- District -->
+                                    <div x-show="selectedProvince !== 'Thành phố Hồ Chí Minh'">
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Quận / Huyện <span class="text-primary">*</span></label>
+                                        <select x-model="selectedDistrict" @change="onDistrictChange()" :disabled="!selectedProvince || selectedProvince === 'Thành phố Hồ Chí Minh'" :required="selectedProvince !== 'Thành phố Hồ Chí Minh'" class="input-premium bg-white disabled:opacity-50 disabled:bg-gray-50">
+                                            <option value="">Chọn Quận / Huyện</option>
+                                            <template x-for="dist in districtsList" :key="dist.Id">
+                                                <option :value="dist.Name" x-text="dist.Name"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+
+                                    <!-- Ward -->
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Phường / Xã <span class="text-primary">*</span></label>
+                                        <select x-model="selectedWard" :disabled="selectedProvince === 'Thành phố Hồ Chí Minh' ? !selectedProvince : !selectedDistrict" required class="input-premium bg-white disabled:opacity-50 disabled:bg-gray-50">
+                                            <option value="">Chọn Phường / Xã</option>
+                                            <template x-for="ward in currentWardsList" :key="ward.Id">
+                                                <option :value="ward.Name" x-text="ward.Name"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+
+                                    <!-- Street -->
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Số nhà, tên đường <span class="text-primary">*</span></label>
+                                        <input type="text" x-model="streetAddress" placeholder="Ví dụ: 3/15 Phan Văn Sửu" required class="input-premium">
+                                    </div>
+                                </div>
+
+                                <!-- Full Address String Hidden Field for Backend compatibility -->
+                                <input type="hidden" name="customer_address" :value="fullAddress" required>
+
+                                <!-- Interactive Address Preview -->
+                                <div x-show="fullAddress" x-transition class="bg-gray-50 p-4 rounded-2xl border border-gray-100 text-xs text-gray-600 space-y-1">
+                                    <span class="font-bold text-gray-900 block">Xem trước địa chỉ giao hàng:</span>
+                                    <span class="text-primary font-medium" x-text="fullAddress"></span>
                                 </div>
 
                                 <div>
@@ -192,7 +236,6 @@
                                 </div>
 
                                 <button type="submit" 
-                                        onclick="alert('Cảm ơn bạn! Đơn hàng của bạn đã được tiếp nhận. Đội ngũ kỹ thuật Âu Việt Phát sẽ liên hệ xác nhận trong giây lát.'); return false;" 
                                         class="w-full bg-primary hover:bg-primary-dark text-white font-extrabold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg shadow-primary/20 flex items-center justify-center gap-2 text-base mt-6">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -206,4 +249,251 @@
             @endif
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('addressSelector', () => ({
+                    provinces: [],
+                    customerName: '',
+                    customerPhone: '',
+                    selectedProvince: '',
+                    selectedDistrict: '',
+                    selectedWard: '',
+                    streetAddress: '',
+                    hcmcWards: [
+                        { Id: "hcm-1", Name: "Phường Sài Gòn" },
+                        { Id: "hcm-2", Name: "Phường Tân Định" },
+                        { Id: "hcm-3", Name: "Phường Bến Thành" },
+                        { Id: "hcm-4", Name: "Phường Cầu Ông Lãnh" },
+                        { Id: "hcm-5", Name: "Phường Bàn Cờ" },
+                        { Id: "hcm-6", Name: "Phường Xuân Hòa" },
+                        { Id: "hcm-7", Name: "Phường Nhiêu Lộc" },
+                        { Id: "hcm-8", Name: "Phường Xóm Chiếu" },
+                        { Id: "hcm-9", Name: "Phường Khánh Hội" },
+                        { Id: "hcm-10", Name: "Phường Vĩnh Hội" },
+                        { Id: "hcm-11", Name: "Phường Chợ Quán" },
+                        { Id: "hcm-12", Name: "Phường An Đông" },
+                        { Id: "hcm-13", Name: "Phường Chợ Lớn" },
+                        { Id: "hcm-14", Name: "Phường Bình Tây" },
+                        { Id: "hcm-15", Name: "Phường Bình Tiên" },
+                        { Id: "hcm-16", Name: "Phường Bình Phú" },
+                        { Id: "hcm-17", Name: "Phường Phú Lâm" },
+                        { Id: "hcm-18", Name: "Phường Tân Thuận" },
+                        { Id: "hcm-19", Name: "Phường Phú Thuận" },
+                        { Id: "hcm-20", Name: "Phường Tân Mỹ" },
+                        { Id: "hcm-21", Name: "Phường Tân Hưng" },
+                        { Id: "hcm-22", Name: "Phường Chánh Hưng" },
+                        { Id: "hcm-23", Name: "Phường Phú Định" },
+                        { Id: "hcm-24", Name: "Phường Bình Đông" },
+                        { Id: "hcm-25", Name: "Phường Diên Hồng" },
+                        { Id: "hcm-26", Name: "Phường Vườn Lài" },
+                        { Id: "hcm-27", Name: "Phường Hòa Hưng" },
+                        { Id: "hcm-28", Name: "Phường Minh Phụng" },
+                        { Id: "hcm-29", Name: "Phường Bình Thới" },
+                        { Id: "hcm-30", Name: "Phường Hòa Bình" },
+                        { Id: "hcm-31", Name: "Phường Phú Thọ" },
+                        { Id: "hcm-32", Name: "Phường Đông Hưng Thuận" },
+                        { Id: "hcm-33", Name: "Phường Trung Mỹ Tây" },
+                        { Id: "hcm-34", Name: "Phường Tân Thới Hiệp" },
+                        { Id: "hcm-35", Name: "Phường Thới An" },
+                        { Id: "hcm-36", Name: "Phường An Phú Đông" },
+                        { Id: "hcm-37", Name: "Phường An Lạc" },
+                        { Id: "hcm-38", Name: "Phường Bình Tân" },
+                        { Id: "hcm-39", Name: "Phường Tân Tạo" },
+                        { Id: "hcm-40", Name: "Phường Bình Trị Đông" },
+                        { Id: "hcm-41", Name: "Phường Bình Hưng Hòa" },
+                        { Id: "hcm-42", Name: "Phường Gia Định" },
+                        { Id: "hcm-43", Name: "Phường Bình Thạnh" },
+                        { Id: "hcm-44", Name: "Phường Bình Lợi Trung" },
+                        { Id: "hcm-45", Name: "Phường Thạnh Mỹ Tây" },
+                        { Id: "hcm-46", Name: "Phường Bình Quới" },
+                        { Id: "hcm-47", Name: "Phường Hạnh Thông" },
+                        { Id: "hcm-48", Name: "Phường An Nhơn" },
+                        { Id: "hcm-49", Name: "Phường Gò Vấp" },
+                        { Id: "hcm-50", Name: "Phường An Hội Đông" },
+                        { Id: "hcm-51", Name: "Phường Thông Tây Hội" },
+                        { Id: "hcm-52", Name: "Phường An Hội Tây" },
+                        { Id: "hcm-53", Name: "Phường Đức Nhuận" },
+                        { Id: "hcm-54", Name: "Phường Cầu Kiệu" },
+                        { Id: "hcm-55", Name: "Phường Phú Nhuận" },
+                        { Id: "hcm-56", Name: "Phường Tân Sơn Hòa" },
+                        { Id: "hcm-57", Name: "Phường Tân Sơn Nhất" },
+                        { Id: "hcm-58", Name: "Phường Tân Hòa" },
+                        { Id: "hcm-59", Name: "Phường Bảy Hiền" },
+                        { Id: "hcm-60", Name: "Phường Tân Bình" },
+                        { Id: "hcm-61", Name: "Phường Tân Sơn" },
+                        { Id: "hcm-62", Name: "Phường Tây Thạnh" },
+                        { Id: "hcm-63", Name: "Phường Tân Sơn Nhì" },
+                        { Id: "hcm-64", Name: "Phường Phú Thọ Hòa" },
+                        { Id: "hcm-65", Name: "Phường Tân Phú" },
+                        { Id: "hcm-66", Name: "Phường Phú Thạnh" },
+                        { Id: "hcm-67", Name: "Phường Hiệp Bình" },
+                        { Id: "hcm-68", Name: "Phường Thủ Đức" },
+                        { Id: "hcm-69", Name: "Phường Tam Bình" },
+                        { Id: "hcm-70", Name: "Phường Linh Xuân" },
+                        { Id: "hcm-71", Name: "Phường Tăng Nhơn Phú" },
+                        { Id: "hcm-72", Name: "Phường Long Bình" },
+                        { Id: "hcm-73", Name: "Phường Long Phước" },
+                        { Id: "hcm-74", Name: "Phường Long Trường" },
+                        { Id: "hcm-75", Name: "Phường Cát Lái" },
+                        { Id: "hcm-76", Name: "Phường Bình Trưng" },
+                        { Id: "hcm-77", Name: "Phường Phước Long" },
+                        { Id: "hcm-78", Name: "Phường An Khánh" },
+                        { Id: "hcm-79", Name: "Phường Đông Hòa" },
+                        { Id: "hcm-80", Name: "Phường Dĩ An" },
+                        { Id: "hcm-81", Name: "Phường Tân Đông Hiệp" },
+                        { Id: "hcm-82", Name: "Phường An Phú" },
+                        { Id: "hcm-83", Name: "Phường Bình Hòa" },
+                        { Id: "hcm-84", Name: "Phường Lái Thiêu" },
+                        { Id: "hcm-85", Name: "Phường Thuận An" },
+                        { Id: "hcm-86", Name: "Phường Thuận Giao" },
+                        { Id: "hcm-87", Name: "Phường Thủ Dầu Một" },
+                        { Id: "hcm-88", Name: "Phường Phú Lợi" },
+                        { Id: "hcm-89", Name: "Phường Chánh Hiệp" },
+                        { Id: "hcm-90", Name: "Phường Bình Dương" },
+                        { Id: "hcm-91", Name: "Phường Hòa Lợi" },
+                        { Id: "hcm-92", Name: "Phường Phú An" },
+                        { Id: "hcm-93", Name: "Phường Tây Nam" },
+                        { Id: "hcm-94", Name: "Phường Long Nguyên" },
+                        { Id: "hcm-95", Name: "Phường Bến Cát" },
+                        { Id: "hcm-96", Name: "Phường Chánh Phú Hòa" },
+                        { Id: "hcm-97", Name: "Phường Vĩnh Tân" },
+                        { Id: "hcm-98", Name: "Phường Bình Cơ" },
+                        { Id: "hcm-99", Name: "Phường Tân Uyên" },
+                        { Id: "hcm-100", Name: "Phường Tân Hiệp" },
+                        { Id: "hcm-101", Name: "Phường Tân Khánh" },
+                        { Id: "hcm-102", Name: "Phường Vũng Tàu" },
+                        { Id: "hcm-103", Name: "Phường Tam Thắng" },
+                        { Id: "hcm-104", Name: "Phường Rạch Dừa" },
+                        { Id: "hcm-105", Name: "Phường Phước Thắng" },
+                        { Id: "hcm-106", Name: "Phường Long Hương" },
+                        { Id: "hcm-107", Name: "Phường Bà Rịa" },
+                        { Id: "hcm-108", Name: "Phường Tam Long" },
+                        { Id: "hcm-109", Name: "Phường Tân Hải" },
+                        { Id: "hcm-110", Name: "Phường Tân Phước" },
+                        { Id: "hcm-111", Name: "Phường Phú Mỹ" },
+                        { Id: "hcm-112", Name: "Phường Tân Thành" },
+                        { Id: "hcm-113", Name: "Xã Vĩnh Lộc" },
+                        { Id: "hcm-114", Name: "Xã Tân Vĩnh Lộc" },
+                        { Id: "hcm-115", Name: "Xã Bình Lợi" },
+                        { Id: "hcm-116", Name: "Xã Tân Nhựt" },
+                        { Id: "hcm-117", Name: "Xã Bình Chánh" },
+                        { Id: "hcm-118", Name: "Xã Hưng Long" },
+                        { Id: "hcm-119", Name: "Xã Bình Hưng" },
+                        { Id: "hcm-120", Name: "Xã Bình Khánh" },
+                        { Id: "hcm-121", Name: "Xã An Thới Đông" },
+                        { Id: "hcm-122", Name: "Xã Cần Giờ" },
+                        { Id: "hcm-123", Name: "Xã Củ Chi" },
+                        { Id: "hcm-124", Name: "Xã Tân An Hội" },
+                        { Id: "hcm-125", Name: "Xã Thái Mỹ" },
+                        { Id: "hcm-126", Name: "Xã An Nhơn Tây" },
+                        { Id: "hcm-127", Name: "Xã Nhuận Đức" },
+                        { Id: "hcm-128", Name: "Xã Phú Hòa Đông" },
+                        { Id: "hcm-129", Name: "Xã Bình Mỹ" },
+                        { Id: "hcm-130", Name: "Xã Đông Thạnh" },
+                        { Id: "hcm-131", Name: "Xã Hóc Môn" },
+                        { Id: "hcm-132", Name: "Xã Xuân Thới Sơn" },
+                        { Id: "hcm-133", Name: "Xã Bà Điểm" },
+                        { Id: "hcm-134", Name: "Xã Nhà Bè" },
+                        { Id: "hcm-135", Name: "Xã Hiệp Phước" },
+                        { Id: "hcm-136", Name: "Xã Thường Tân" },
+                        { Id: "hcm-137", Name: "Xã Bắc Tân Uyên" },
+                        { Id: "hcm-138", Name: "Xã Phú Giáo" },
+                        { Id: "hcm-139", Name: "Xã Phước Hòa" },
+                        { Id: "hcm-140", Name: "Xã Phước Thành" },
+                        { Id: "hcm-141", Name: "Xã An Long" },
+                        { Id: "hcm-142", Name: "Xã Trừ Văn Thố" },
+                        { Id: "hcm-143", Name: "Xã Bàu Bàng" },
+                        { Id: "hcm-144", Name: "Xã Long Hòa" },
+                        { Id: "hcm-145", Name: "Xã Thanh An" },
+                        { Id: "hcm-146", Name: "Xã Dầu Tiếng" },
+                        { Id: "hcm-147", Name: "Xã Minh Thạnh" },
+                        { Id: "hcm-148", Name: "Xã Châu Pha" },
+                        { Id: "hcm-149", Name: "Xã Long Hải" },
+                        { Id: "hcm-150", Name: "Xã Long Điền" },
+                        { Id: "hcm-151", Name: "Xã Phước Hải" },
+                        { Id: "hcm-152", Name: "Xã Đất Đỏ" },
+                        { Id: "hcm-153", Name: "Xã Nghĩa Thành" },
+                        { Id: "hcm-154", Name: "Xã Ngãi Giao" },
+                        { Id: "hcm-155", Name: "Xã Kim Long" },
+                        { Id: "hcm-156", Name: "Xã Châu Đức" },
+                        { Id: "hcm-157", Name: "Xã Bình Giã" },
+                        { Id: "hcm-158", Name: "Xã Xuân Sơn" },
+                        { Id: "hcm-159", Name: "Xã Hồ Tràm" },
+                        { Id: "hcm-160", Name: "Xã Xuyên Mộc" },
+                        { Id: "hcm-161", Name: "Xã Hòa Hội" },
+                        { Id: "hcm-162", Name: "Xã Bàu Lâm" },
+                        { Id: "hcm-163", Name: "Đặc khu Côn Đảo" },
+                        { Id: "hcm-164", Name: "Xã Bình Châu" },
+                        { Id: "hcm-165", Name: "Xã Hòa Hiệp" },
+                        { Id: "hcm-166", Name: "Xã Long Sơn" },
+                        { Id: "hcm-167", Name: "Xã Thạnh An" },
+                        { Id: "hcm-168", Name: "Phường Thới Hòa" }
+                    ],
+                    selectedProvince: '',
+                    selectedDistrict: '',
+                    selectedWard: '',
+                    streetAddress: '',
+
+                    init() {
+                        fetch('/data/vietnam-addresses.json')
+                            .then(res => {
+                                if (!res.ok) throw new Error('Failed to load address data');
+                                return res.json();
+                            })
+                            .then(data => {
+                                this.provinces = data;
+                            })
+                            .catch(err => {
+                                console.error('Error fetching Vietnam address list:', err);
+                            });
+                    },
+
+                    get districtsList() {
+                        if (!this.selectedProvince) return [];
+                        const prov = this.provinces.find(p => p.Name === this.selectedProvince);
+                        return prov ? prov.Districts : [];
+                    },
+
+                    get wardsList() {
+                        if (!this.selectedDistrict) return [];
+                        const dist = this.districtsList.find(d => d.Name === this.selectedDistrict);
+                        return dist ? dist.Wards : [];
+                    },
+
+                    get currentWardsList() {
+                        if (this.selectedProvince === 'Thành phố Hồ Chí Minh') {
+                            return this.hcmcWards;
+                        }
+                        return this.wardsList;
+                    },
+
+                    onProvinceChange() {
+                        this.selectedDistrict = '';
+                        this.selectedWard = '';
+                    },
+
+                    onDistrictChange() {
+                        this.selectedWard = '';
+                    },
+
+                    get fullAddress() {
+                        let parts = [];
+                        if (this.streetAddress) parts.push(this.streetAddress.trim());
+                        if (this.selectedWard) parts.push(this.selectedWard);
+                        if (this.selectedProvince !== 'Thành phố Hồ Chí Minh' && this.selectedDistrict) {
+                            parts.push(this.selectedDistrict);
+                        }
+                        if (this.selectedProvince) parts.push(this.selectedProvince);
+                        return parts.join(', ');
+                    },
+
+                    submitOrder() {
+                        alert(`Cảm ơn quý khách ${this.customerName}!\n\nĐơn hàng giao tới địa chỉ:\n${this.fullAddress}\n\nĐã được tiếp nhận thành công. Kỹ thuật viên Âu Việt Phát sẽ liên hệ qua số điện thoại ${this.customerPhone} để xác nhận giao hàng.`);
+                    }
+                }));
+            });
+        </script>
+    @endpush
 @endsection
