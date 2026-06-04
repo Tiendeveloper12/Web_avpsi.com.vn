@@ -31,9 +31,9 @@
     </div>
 
     <!-- Main Header -->
-    <div :class="isScrolled ? 'py-2' : 'py-4'" class="container-custom flex items-center justify-between gap-8 transition-all duration-300">
+    <div :class="isScrolled ? 'py-2' : 'py-4'" class="container-custom flex items-center justify-between gap-4 md:gap-6 lg:gap-8 transition-all duration-300">
         <a href="/" class="flex-shrink-0">
-            <img src="{{ asset('images/logo_header.jpg') }}" alt="Âu Việt Phát Logo" class="h-10 md:h-14 w-auto object-contain transition-all">
+            <img src="{{ asset('images/logo_header.jpg') }}" alt="Âu Việt Phát Logo" class="h-8 md:h-10 lg:h-14 w-auto object-contain transition-all">
         </a>
 
         <!-- Search -->
@@ -107,7 +107,7 @@
         </div>
 
         <!-- Actions -->
-        <div class="flex items-center gap-6">
+        <div class="flex items-center gap-3 md:gap-4 lg:gap-6">
             @auth
                 <!-- User Logged In: Show Dropdown -->
                 <div class="relative" x-data="{ open: false }" @click.outside="open = false">
@@ -131,6 +131,13 @@
                             <p class="text-[10px] text-gray-500">Xin chào,</p>
                             <p class="text-sm font-bold text-gray-900 truncate">{{ Auth::user()->name }}</p>
                         </div>
+                        
+                        @if(Auth::user()->email === 'Admin1@gmail.com')
+                            <a href="{{ route('admin.orders.index') }}" class="block px-3 py-2.5 text-base font-semibold text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2 border-b border-gray-50" style="white-space: nowrap;">
+                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                                Quản lý đơn hàng
+                            </a>
+                        @endif
                         
                         <form method="POST" action="{{ route('logout') }}" class="w-full">
                             @csrf
@@ -197,27 +204,25 @@
          x-transition:leave-end="opacity-0 scale-y-0"
          class="bg-dark border-t border-gray-800 hidden md:block origin-top">
         <div class="container-custom">
-            <ul class="flex items-center gap-8 py-3">
-                <li>
-                    <a href="#" class="flex items-center gap-2 text-highlight font-bold">
+            <ul class="flex items-center justify-between py-3">
+                <!-- <li>
+                    <a href="#" class="flex items-center gap-2.5 text-highlight text-base md:text-lg font-extrabold tracking-wide">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                         DANH MỤC SẢN PHẨM
                     </a>
-                </li>
+                </li> -->
                 @php
                     $menus = [
                         ['title' => 'Trang chủ', 'url' => '/'],
                         ['title' => 'Sản phẩm', 'url' => route('products.index')],
-                        ['title' => 'TEMP', 'url' => '#'],
-                        ['title' => 'TEMP', 'url' => '#'],
-                        ['title' => 'TEMP', 'url' => '#'],
-                        ['title' => 'TEMP', 'url' => '#'],
-                        ['title' => 'TEMP', 'url' => '#'],
+                        ['title' => 'Dịch vụ', 'url' => route('services.index')],
+                        ['title' => 'Giới thiệu', 'url' => route('about')],
+                        ['title' => 'Liên hệ', 'url' => route('contact.create')],
                     ];
                 @endphp
                 @foreach($menus as $item)
                     <li>
-                        <a href="{{ $item['url'] }}" class="text-sm font-semibold text-gray-200 hover:text-highlight transition-colors tracking-wide uppercase">
+                        <a href="{{ $item['url'] }}" class="text-xs md:text-sm lg:text-base xl:text-lg font-bold text-gray-200 hover:text-highlight transition-colors tracking-wide uppercase">
                             {{ $item['title'] }}
                         </a>
                     </li>

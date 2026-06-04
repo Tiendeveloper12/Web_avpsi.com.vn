@@ -36,12 +36,42 @@ Route::get('/dich-vu/cho-thue-photocopy', function () {
     return view('services.cho-thue-photocopy');
 })->name('services.cho-thue-photocopy');
 
+Route::get('/dich-vu/sua-chua-may-tinh', function () {
+    return view('services.sua-chua-may-tinh');
+})->name('services.sua-chua-may-tinh');
+
+Route::get('/dich-vu/sua-chua-may-in', function () {
+    return view('services.sua-chua-may-in');
+})->name('services.sua-chua-may-in');
+
+Route::get('/dich-vu', function () {
+    return view('services.index');
+})->name('services.index');
+
+Route::get('/dich-vu/camera-quan-sat', function () {
+    return view('services.camera-quan-sat');
+})->name('services.camera-quan-sat');
+
+Route::get('/dich-vu/he-thong-server', function () {
+    return view('services.he-thong-server');
+})->name('services.he-thong-server');
+
+Route::get('/dich-vu/cho-thue-thiet-bi-ngan-han', function () {
+    return view('services.cho-thue-thiet-bi-ngan-han');
+})->name('services.cho-thue-thiet-bi-ngan-han');
+
+Route::get('/gioi-thieu', function () {
+    return view('about');
+})->name('about');
+
 // Cart routes
 use App\Http\Controllers\CartController;
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/checkout', [CartController::class, 'placeOrder'])->name('cart.place_order');
 
 
 // Auth routes
@@ -56,4 +86,8 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Admin routes (admin access enforced in controller)
+    Route::get('/admin/orders', [\App\Http\Controllers\Admin\OrderController::class, 'index'])->name('admin.orders.index');
+    Route::post('/admin/orders/{id}/status', [\App\Http\Controllers\Admin\OrderController::class, 'updateStatus'])->name('admin.orders.update_status');
 });

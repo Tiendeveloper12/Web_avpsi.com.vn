@@ -160,8 +160,8 @@
                             ['name' => 'Nạp mực in & photocopy', 'slug' => 'nap-muc-in-photocopy', 'url' => '/dich-vu/nap-muc-in'],
                             ['name' => 'Thiết kế, thi công hệ thống server', 'slug' => 'he-thong-server'],
                             ['name' => 'Thiết kế, thi công camera văn phòng - nhà xưởng', 'slug' => 'camera-van-phong'],
-                            ['name' => 'Dịch vụ sửa chữa máy photocopy - máy in', 'slug' => 'sua-chua-may-in'],
-                            ['name' => 'Dịch vụ bảo trì, sửa chữa laptop - máy tính để bàn', 'slug' => 'bao-tri-may-tinh'],
+                            ['name' => 'Dịch vụ sửa chữa máy photocopy - máy in', 'slug' => 'sua-chua-may-in', 'url' => '/dich-vu/sua-chua-may-in'],
+                            ['name' => 'Dịch vụ bảo trì, sửa chữa laptop - máy tính để bàn', 'slug' => 'bao-tri-may-tinh', 'url' => '/dich-vu/sua-chua-may-tinh'],
                             ['name' => 'Cho thuê laptop, máy tính, máy in, máy văn phòng', 'slug' => 'cho-thue-thiet-bi']
                         ]
                     ],
@@ -169,7 +169,7 @@
             @endphp
             @foreach($categories as $index => $cat)
                 <li @mouseenter="openCat({{ $index }})" @mouseleave="closeCat()" class="group">
-                    <a href="/category/{{ $cat['slug'] }}" class="flex items-center justify-between px-5 py-3 text-sm text-gray-700 hover:bg-primary/5 hover:text-primary transition-all duration-200">
+                    <a href="{{ $cat['slug'] === 'dich-vu' ? '/dich-vu' : '/category/' . $cat['slug'] }}" class="flex items-center justify-between px-5 py-3 text-sm text-gray-700 hover:bg-primary/5 hover:text-primary transition-all duration-200">
                         <div class="flex items-center gap-3">
                             <span class="text-lg">{{ $cat['icon'] }}</span>
                             <span class="font-medium">{{ $cat['title'] }}</span>
@@ -210,8 +210,8 @@
                         </div>
 
                         <div class="mt-auto relative z-10 pt-12">
-                            <a :href="'/category/' + cat.slug" class="inline-flex items-center gap-3 bg-dark text-white px-8 py-4 rounded-xl font-bold hover:bg-primary transition-all duration-300 shadow-xl">
-                                Xem tất cả sản phẩm
+                            <a :href="cat.slug === 'dich-vu' ? '/dich-vu' : '/category/' + cat.slug" class="inline-flex items-center gap-3 bg-dark text-white px-8 py-4 rounded-xl font-bold hover:bg-primary transition-all duration-300 shadow-xl">
+                                <span x-text="cat.slug === 'dich-vu' ? 'Xem tất cả dịch vụ' : 'Xem tất cả sản phẩm'"></span>
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
                             </a>
                         </div>

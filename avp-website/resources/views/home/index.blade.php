@@ -178,6 +178,86 @@
         </div>
     </section>
 
+    <!-- PC/Laptop Repair Promo Banner -->
+    <section class="py-12 bg-white">
+        <div class="container-custom">
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0d5326] via-secondary to-[#eab308]/60 text-white shadow-premium group">
+                <!-- Decorative background elements -->
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_120%,rgba(255,255,255,0.12),transparent)] pointer-events-none"></div>
+                <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-white/10 blur-3xl group-hover:scale-110 transition-transform duration-700 pointer-events-none"></div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <!-- Left: Promo Text -->
+                    <div class="lg:col-span-7 p-8 md:p-12 lg:p-16 flex flex-col justify-center space-y-6">
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-xs font-bold uppercase tracking-wider text-highlight border border-white/10 w-fit">
+                            <span class="w-2 h-2 rounded-full bg-highlight animate-pulse"></span>
+                            BẢO TRÌ & SỬA CHỮA CHUYÊN NGHIỆP
+                        </div>
+                        
+                        <h2 class="text-3xl md:text-4.5xl font-extrabold leading-tight tracking-tight uppercase">
+                            SỬA CHỮA LAPTOP – PC <br class="hidden md:inline">
+                            <span class="text-highlight">BẢO TRÌ NHANH CHÓNG – TẬN NƠI</span>
+                        </h2>
+                        
+                        <p class="text-white/80 text-base md:text-lg max-w-2xl leading-relaxed">
+                            Khắc phục nhanh mọi sự có phần cứng, phần mềm của laptop và máy tính để bàn. Vệ sinh máy, tra keo tản nhiệt định kỳ chuyên nghiệp. Linh kiện chính hãng, bảo hành chu đáo.
+                        </p>
+                        
+                        <!-- Mini Highlights Grid -->
+                        <div class="grid grid-cols-2 gap-4 pt-2 pb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center text-highlight shrink-0">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-sm font-semibold text-white/90">Kỹ thuật viên nhiều kinh nghiệm</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center text-highlight shrink-0">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-sm font-semibold text-white/90">Linh kiện thay thế chính hãng</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center text-highlight shrink-0">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-sm font-semibold text-white/90">Khắc phục tận nơi nhanh chóng</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center text-highlight shrink-0">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-sm font-semibold text-white/90">Bảo hành dài hạn sau sửa chữa</span>
+                            </div>
+                        </div>
+
+                        <!-- CTA buttons -->
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <a href="https://zalo.me/0912979394" target="_blank" class="inline-flex items-center justify-center gap-2 bg-white hover:bg-highlight text-secondary hover:text-dark font-extrabold px-8 py-4 rounded-2xl transition-all duration-300 shadow-lg shadow-black/15 hover:shadow-highlight/20 group/btn">
+                                <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12.003 21c-5.522 0-9.997-4.477-9.997-10S6.48 1 12.003 1s9.997 4.477 9.997 10-4.475 10-9.997 10zm3.001-11.5h-5.002v-1.2l2.601-3.1h-2.601V4h5.002v1.2l-2.601 3.1h2.601v1.2z"/>
+                                </svg>
+                                Chat Zalo tư vấn
+                            </a>
+                            <a href="{{ route('services.sua-chua-may-tinh') }}" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300 group/btn">
+                                Xem chi tiết dịch vụ
+                                <svg class="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Right: Promo Image -->
+                    <div class="lg:col-span-5 relative self-stretch hidden lg:block overflow-hidden min-h-[350px]">
+                        <img src="{{ asset('images/banners/pc_repair_banner.png') }}" 
+                             alt="Sửa chữa Laptop PC chuyên nghiệp" 
+                             class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-r from-[#0d5326] via-transparent to-transparent pointer-events-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Office Machines Carousel -->
     <section class="py-16 bg-white border-y border-gray-100">
         <div class="container-custom">
@@ -329,21 +409,21 @@
                                 <div class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center text-highlight shrink-0">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                                 </div>
-                                <span class="text-sm font-semibold text-white/90">Hỗ trợ kỹ thuật 24/7</span>
+                                <span class="text-sm font-semibold text-white/90">Hỗ trợ kỹ thuật tận nơi</span>
                             </div>
                         </div>
 
                         <!-- CTA buttons -->
                         <div class="flex flex-wrap gap-4 pt-2">
-                            <a href="{{ route('services.cho-thue-photocopy') }}" class="inline-flex items-center justify-center gap-2 bg-white hover:bg-highlight text-primary hover:text-dark font-extrabold px-8 py-4 rounded-2xl transition-all duration-300 shadow-lg shadow-black/15 hover:shadow-highlight/20 group/btn">
-                                Xem chi tiết dịch vụ
-                                <svg class="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </a>
-                            <a href="https://zalo.me/0912979394" target="_blank" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300">
-                                <svg class="w-5 h-5 shrink-0 text-highlight" fill="currentColor" viewBox="0 0 24 24">
+                            <a href="https://zalo.me/0912979394" target="_blank" class="inline-flex items-center justify-center gap-2 bg-white hover:bg-highlight text-primary hover:text-dark font-extrabold px-8 py-4 rounded-2xl transition-all duration-300 shadow-lg shadow-black/15 hover:shadow-highlight/20 group/btn">
+                                <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12.003 21c-5.522 0-9.997-4.477-9.997-10S6.48 1 12.003 1s9.997 4.477 9.997 10-4.475 10-9.997 10zm3.001-11.5h-5.002v-1.2l2.601-3.1h-2.601V4h5.002v1.2l-2.601 3.1h2.601v1.2z"/>
                                 </svg>
-                                Nhận báo giá ngay
+                                Chat Zalo tư vấn
+                            </a>
+                            <a href="{{ route('services.cho-thue-photocopy') }}" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300 group/btn">
+                                Xem chi tiết dịch vụ
+                                <svg class="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                             </a>
                         </div>
                     </div>
