@@ -203,8 +203,8 @@
          x-transition:leave-start="opacity-100 scale-y-100"
          x-transition:leave-end="opacity-0 scale-y-0"
          class="bg-dark border-t border-gray-800 hidden md:block origin-top">
-        <div class="container-custom">
-            <ul class="flex items-center justify-between py-3">
+        <div class="container-custom relative" x-data="{ menuOpen: false, servicesOpen: false }">
+            <ul class="flex items-center justify-between py-2">
                 <!-- <li>
                     <a href="#" class="flex items-center gap-2.5 text-highlight text-base md:text-lg font-extrabold tracking-wide">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -221,13 +221,247 @@
                     ];
                 @endphp
                 @foreach($menus as $item)
-                    <li>
-                        <a href="{{ $item['url'] }}" class="text-xs md:text-sm lg:text-base xl:text-lg font-bold text-gray-200 hover:text-highlight transition-colors tracking-wide uppercase">
-                            {{ $item['title'] }}
-                        </a>
-                    </li>
+                    @if($item['title'] === 'Sản phẩm')
+                        <li @mouseenter="menuOpen = true" @mouseleave="menuOpen = false">
+                            <a href="{{ $item['url'] }}" class="text-xs md:text-sm lg:text-base xl:text-lg font-bold text-gray-200 hover:text-highlight transition-colors tracking-wide uppercase py-2 block">
+                                {{ $item['title'] }}
+                            </a>
+                        </li>
+                    @elseif($item['title'] === 'Dịch vụ')
+                        <li class="relative" @mouseenter="servicesOpen = true" @mouseleave="servicesOpen = false">
+                            <a href="{{ $item['url'] }}" class="text-xs md:text-sm lg:text-base xl:text-lg font-bold text-gray-200 hover:text-highlight transition-colors tracking-wide uppercase py-2 block">
+                                {{ $item['title'] }}
+                            </a>
+                            
+                            <!-- Services Dropdown -->
+                            <div x-show="servicesOpen"
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 translate-y-2"
+                                 x-transition:enter-end="opacity-100 translate-y-0"
+                                 x-transition:leave="transition ease-in duration-150"
+                                 x-transition:leave-start="opacity-100 translate-y-0"
+                                 x-transition:leave-end="opacity-0 translate-y-2"
+                                 class="absolute left-0 top-full pt-1 w-80 z-50"
+                                 style="display: none;"
+                                 x-cloak>
+                                <div class="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden py-3">
+                                    @php
+                                        $services = [
+                                            ['name' => 'Cho thuê máy photocopy', 'slug' => 'cho-thue-may-photocopy', 'url' => '/dich-vu/cho-thue-photocopy'],
+                                            ['name' => 'Nạp mực in & photocopy', 'slug' => 'nap-muc-in-photocopy', 'url' => '/dich-vu/nap-muc-in'],
+                                            ['name' => 'Thiết kế, thi công hệ thống server', 'slug' => 'he-thong-server'],
+                                            ['name' => 'Thiết kế, thi công camera văn phòng - nhà xưởng', 'slug' => 'camera-van-phong'],
+                                            ['name' => 'Dịch vụ sửa chữa máy photocopy - máy in', 'slug' => 'sua-chua-may-in', 'url' => '/dich-vu/sua-chua-may-in'],
+                                            ['name' => 'Dịch vụ bảo trì, sửa chữa laptop - máy tính để bàn', 'slug' => 'bao-tri-may-tinh', 'url' => '/dich-vu/sua-chua-may-tinh'],
+                                            ['name' => 'Cho thuê laptop, máy tính, máy in, máy văn phòng', 'slug' => 'cho-thue-thiet-bi']
+                                        ];
+                                    @endphp
+                                    @foreach($services as $srv)
+                                        @php
+                                            $srvUrl = isset($srv['url']) ? $srv['url'] : '/category/dich-vu?sub=' . $srv['slug'];
+                                        @endphp
+                                        <a href="{{ $srvUrl }}" class="group/srv flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-primary/5 hover:text-primary transition-colors duration-150">
+                                            <div class="w-1.5 h-1.5 rounded-full bg-gray-200 group-hover/srv:bg-primary transition-all duration-300"></div>
+                                            <span>{{ $srv['name'] }}</span>
+                                        </a>
+                                    @endforeach
+                                    <div class="border-t border-gray-100 mt-2 pt-2 px-4">
+                                        <a href="/dich-vu" class="inline-flex items-center gap-1.5 text-xs font-bold text-dark hover:text-primary transition-colors uppercase">
+                                            Xem tất cả dịch vụ
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    @else
+                        <li>
+                            <a href="{{ $item['url'] }}" class="text-xs md:text-sm lg:text-base xl:text-lg font-bold text-gray-200 hover:text-highlight transition-colors tracking-wide uppercase">
+                                {{ $item['title'] }}
+                            </a>
+                        </li>
+                    @endif
                 @endforeach
             </ul>
+
+            <!-- Horizontal Mega Menu -->
+            <div x-show="menuOpen"
+                 @mouseenter="menuOpen = true"
+                 @mouseleave="menuOpen = false"
+                 x-transition:enter="transition ease-out duration-250"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-2"
+                 class="absolute left-0 right-0 top-full bg-white rounded-b-2xl shadow-2xl border border-t-0 border-gray-100 z-50 py-5 px-6"
+                 style="display: none;"
+                 x-cloak>
+                 @php
+                     $categories = [
+                         [
+                             'title' => 'Máy Photocopy', 
+                             'slug' => 'may-photocopy',
+                             'icon' => '🖨️', 
+                             'subcategories' => ['Ricoh']
+                         ],
+                         [
+                             'title' => 'Mực In', 
+                             'slug' => 'muc-in',
+                             'icon' => '💧', 
+                             'subcategories' => [
+                                 ['name' => 'AVP', 'slug' => 'sub-avp'],
+                                 ['name' => 'HP', 'slug' => 'sub-hp'],
+                                 ['name' => 'Canon', 'slug' => 'sub-canon'],
+                                 ['name' => 'Epson', 'slug' => 'sub-epson'],
+                                 ['name' => 'Brother', 'slug' => 'sub-brother'],
+                                 ['name' => 'Oki', 'slug' => 'sub-oki'],
+                                 ['name' => 'Ricoh', 'slug' => 'sub-ricoh'],
+                                 ['name' => 'Xerox', 'slug' => 'sub-xerox']
+                             ]
+                         ],
+                         [
+                             'title' => 'Máy In', 
+                             'slug' => 'may-in',
+                             'icon' => '📠', 
+                             'subcategories' => [
+                                 ['name' => 'Máy in HP', 'slug' => 'sub-hp'],
+                                 ['name' => 'Máy in Canon', 'slug' => 'sub-canon'],
+                                 ['name' => 'Máy in Epson', 'slug' => 'sub-epson'],
+                                 ['name' => 'Máy in Brother', 'slug' => 'sub-brother'],
+                                 ['name' => 'Máy in Xerox', 'slug' => 'sub-xerox'],
+                                 ['name' => 'Máy in Pantum', 'slug' => 'sub-pantum']
+                             ]
+                         ],
+                         [
+                             'title' => 'Laptop / Macbook', 
+                             'slug' => 'laptop-macbook',
+                             'icon' => '💻', 
+                             'subcategories' => [
+                                 ['name' => 'Apple MacBook', 'slug' => 'sub-macbook'],
+                                 ['name' => 'Laptop ASUS', 'slug' => 'sub-asus'],
+                                 ['name' => 'Laptop Dell', 'slug' => 'sub-dell'],
+                                 ['name' => 'Laptop HP', 'slug' => 'sub-hp'],
+                                 ['name' => 'Laptop Lenovo', 'slug' => 'sub-lenovo'],
+                                 ['name' => 'Laptop MSI', 'slug' => 'sub-msi'],
+                                 ['name' => 'Laptop Acer', 'slug' => 'sub-acer'],
+                                 ['name' => 'Laptop Razer', 'slug' => 'sub-razer'],
+                                 ['name' => 'Laptop Microsoft', 'slug' => 'sub-microsoft'],
+                                 ['name' => 'Laptop Samsung', 'slug' => 'sub-samsung'],
+                                 ['name' => 'Laptop LG', 'slug' => 'sub-lg'],
+                                 ['name' => 'Laptop Huawei', 'slug' => 'sub-huawei'],
+                                 ['name' => 'Laptop Gigabyte', 'slug' => 'sub-gigabyte']
+                             ]
+                         ],
+                         [
+                             'title' => 'Máy tính để bàn', 
+                             'slug' => 'may-tinh-de-ban',
+                             'icon' => '🖥️', 
+                             'subcategories' => [
+                                 ['name' => 'Apple', 'slug' => 'sub-apple'],
+                                 ['name' => 'Dell', 'slug' => 'sub-dell'],
+                                 ['name' => 'HP', 'slug' => 'sub-hp'],
+                                 ['name' => 'Lenovo', 'slug' => 'sub-lenovo'],
+                                 ['name' => 'ASUS', 'slug' => 'sub-asus'],
+                                 ['name' => 'MSI', 'slug' => 'sub-msi'],
+                                 ['name' => 'Acer', 'slug' => 'sub-acer'],
+                                 ['name' => 'Gigabyte', 'slug' => 'sub-gigabyte'],
+                                 ['name' => 'Huawei', 'slug' => 'sub-huawei'],
+                                 ['name' => 'Samsung', 'slug' => 'sub-samsung'],
+                                 ['name' => 'Khác', 'slug' => 'sub-khac']
+                             ]
+                         ],
+                         [
+                             'title' => 'Linh kiện máy tính', 
+                             'slug' => 'linh-kien-may-tinh',
+                             'icon' => '⚙️', 
+                             'subcategories' => [
+                                 ['name' => 'Màn hình', 'slug' => 'sub-monitor'],
+                                 ['name' => 'RAM', 'slug' => 'sub-ram'],
+                                 ['name' => 'SSD/HDD', 'slug' => 'sub-ssd'],
+                                 ['name' => 'Bảng mạch chính', 'slug' => 'sub-mainboard'],
+                                 ['name' => 'CPU', 'slug' => 'sub-cpu'],
+                                 ['name' => 'Card đồ họa', 'slug' => 'sub-gpu'],
+                                 ['name' => 'Tai nghe', 'slug' => 'sub-headphone'],
+                                 ['name' => 'Bộ phát wifi', 'slug' => 'sub-wifi'],
+                                 ['name' => 'Nguồn', 'slug' => 'sub-psu'],
+                                 ['name' => 'Bàn phím', 'slug' => 'sub-keyboard'],
+                                 ['name' => 'Chuột', 'slug' => 'sub-mouse']
+                             ]
+                         ],
+                         [
+                             'title' => 'Thiết bị văn phòng', 
+                             'slug' => 'thiet-bi-van-phong',
+                             'icon' => '🏢', 
+                             'subcategories' => [
+                                 ['name' => 'Máy chấm công', 'slug' => 'sub-cham-cong'],
+                                 ['name' => 'Máy hủy giấy', 'slug' => 'sub-huy-giay'],
+                                 ['name' => 'Máy in bill', 'slug' => 'sub-in-bill'],
+                                 ['name' => 'Máy quét / Scanner', 'slug' => 'sub-scan'],
+                                 ['name' => 'Máy chiếu', 'slug' => 'sub-chieu'],
+                                 ['name' => 'Thiết bị khác', 'slug' => 'sub-khac']
+                             ]
+                         ],
+                         [
+                             'title' => 'Thiết bị mạng', 
+                             'slug' => 'thiet-bi-mang',
+                             'icon' => '🌐', 
+                             'subcategories' => [
+                                 ['name' => 'Bộ định tuyến Wifi', 'slug' => 'sub-router'],
+                                 ['name' => 'Bộ chuyển mạch (Switch)', 'slug' => 'sub-switch'],
+                                 ['name' => 'Dây cáp internet', 'slug' => 'sub-cable']
+                             ]
+                         ],
+                         [
+                             'title' => 'Camera an ninh', 
+                             'slug' => 'camera-an-ninh',
+                             'icon' => '📹', 
+                             'subcategories' => [
+                                 ['name' => 'Hikvision', 'slug' => 'sub-hikvision'],
+                                 ['name' => 'IMOU', 'slug' => 'sub-imou'],
+                                 ['name' => 'EVI', 'slug' => 'sub-evi'],
+                                 ['name' => 'Khác', 'slug' => 'sub-khac']
+                             ]
+                         ],
+                     ];
+                 @endphp
+                 
+                 <div class="grid grid-cols-3 gap-x-6 gap-y-4">
+                     @foreach($categories as $cat)
+                         <div class="flex flex-col gap-2">
+                             <!-- Category Header -->
+                             <a href="{{ $cat['slug'] === 'dich-vu' ? '/dich-vu' : '/category/' . $cat['slug'] }}" 
+                                class="flex items-center gap-2 text-xs font-extrabold text-dark uppercase tracking-tight hover:text-primary transition-colors border-b border-gray-100 pb-1">
+                                 <span class="text-base">{{ $cat['icon'] }}</span>
+                                 <span>{{ $cat['title'] }}</span>
+                             </a>
+                             
+                             <!-- Subcategories -->
+                             <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                                 @foreach($cat['subcategories'] as $sub)
+                                     @php
+                                         $subName = is_array($sub) ? $sub['name'] : $sub;
+                                         $subSlug = is_array($sub) ? $sub['slug'] : $sub;
+                                         $subUrl = is_array($sub) && isset($sub['url']) ? $sub['url'] : '/category/' . $cat['slug'] . '?sub=' . $subSlug;
+                                     @endphp
+                                     <a href="{{ $subUrl }}" class="group/link flex items-center gap-1.5 text-[11px] font-semibold text-gray-500 hover:text-primary transition-colors duration-150 truncate">
+                                         <div class="w-1 h-1 rounded-full bg-gray-200 group-hover/link:bg-primary group-hover/link:scale-125 transition-all duration-200 flex-shrink-0"></div>
+                                         <span class="truncate">{{ $subName }}</span>
+                                     </a>
+                                 @endforeach
+                             </div>
+                         </div>
+                     @endforeach
+                 </div>
+                 
+                 <div class="mt-5 pt-3 border-t border-gray-100 flex justify-between items-center text-[11px] text-gray-400">
+                     <p class="font-medium">Âu Việt Phát - Chuyên cung cấp giải pháp thiết bị và linh kiện chính hãng hàng đầu.</p>
+                     <a href="{{ route('products.index') }}" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-dark hover:text-primary transition-colors uppercase">
+                         Xem tất cả sản phẩm
+                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                     </a>
+                 </div>
+            </div>
         </div>
     </nav>
 </header>
