@@ -90,4 +90,20 @@ Route::middleware('auth')->group(function () {
     // Admin routes (admin access enforced in controller)
     Route::get('/admin/orders', [\App\Http\Controllers\Admin\OrderController::class, 'index'])->name('admin.orders.index');
     Route::post('/admin/orders/{id}/status', [\App\Http\Controllers\Admin\OrderController::class, 'updateStatus'])->name('admin.orders.update_status');
+
+    // Admin Product Management routes
+    Route::get('/admin/products', [\App\Http\Controllers\Admin\ProductController::class, 'index'])->name('admin.products.index');
+    Route::get('/admin/products/create', [\App\Http\Controllers\Admin\ProductController::class, 'create'])->name('admin.products.create');
+    Route::post('/admin/products', [\App\Http\Controllers\Admin\ProductController::class, 'store'])->name('admin.products.store');
+    Route::get('/admin/products/{id}/edit', [\App\Http\Controllers\Admin\ProductController::class, 'edit'])->name('admin.products.edit');
+    Route::put('/admin/products/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'update'])->name('admin.products.update');
+    Route::post('/admin/products/{id}/toggle-visibility', [\App\Http\Controllers\Admin\ProductController::class, 'toggleVisibility'])->name('admin.products.toggle_visibility');
+    Route::delete('/admin/products/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('admin.products.destroy');
+
+    // Admin Contact Form Submissions routes
+    Route::get('/admin/contacts', [\App\Http\Controllers\Admin\ContactController::class, 'index'])->name('admin.contacts.index');
+    Route::post('/admin/contacts/{id}/toggle-read', [\App\Http\Controllers\Admin\ContactController::class, 'toggleRead'])->name('admin.contacts.toggle_read');
+    Route::post('/admin/contacts/{id}/toggle-flag', [\App\Http\Controllers\Admin\ContactController::class, 'toggleFlag'])->name('admin.contacts.toggle_flag');
+    Route::post('/admin/contacts/mark-all-read', [\App\Http\Controllers\Admin\ContactController::class, 'markAllRead'])->name('admin.contacts.mark_all_read');
+    Route::delete('/admin/contacts/{id}', [\App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('admin.contacts.destroy');
 });

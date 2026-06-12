@@ -126,7 +126,7 @@
                          x-transition:leave-start="transform opacity-100 scale-100"
                          x-transition:leave-end="transform opacity-0 scale-95"
                          class="absolute right-0 mt-2 rounded-xl shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-[60] border border-gray-100"
-                         style="display: none; width: 10rem;">
+                         style="display: none; width: 11.5rem;">
                         <div class="px-3 py-2 border-b border-gray-100">
                             <p class="text-[10px] text-gray-500">Xin chào,</p>
                             <p class="text-sm font-bold text-gray-900 truncate">{{ Auth::user()->name }}</p>
@@ -136,6 +136,14 @@
                             <a href="{{ route('admin.orders.index') }}" class="block px-3 py-2.5 text-base font-semibold text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2 border-b border-gray-50" style="white-space: nowrap;">
                                 <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                                 Quản lý đơn hàng
+                            </a>
+                            <a href="{{ route('admin.products.index') }}" class="block px-3 py-2.5 text-base font-semibold text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2 border-b border-gray-50" style="white-space: nowrap;">
+                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                                Quản lý sản phẩm
+                            </a>
+                            <a href="{{ route('admin.contacts.index') }}" class="block px-3 py-2.5 text-base font-semibold text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2 border-b border-gray-50" style="white-space: nowrap;">
+                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                                Quản lý liên hệ
                             </a>
                         @endif
                         

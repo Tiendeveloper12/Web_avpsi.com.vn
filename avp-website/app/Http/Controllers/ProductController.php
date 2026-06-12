@@ -15,6 +15,7 @@ class ProductController extends Controller
         // Base query with join for price
         $query = DB::table('product')
             ->leftJoin('variant', 'product.id', '=', 'variant.product_id')
+            ->where('product.status', 'active')
             ->select('product.*', 'variant.price as variant_price', 'variant.price as sell');
 
         // Search filter
@@ -69,6 +70,7 @@ class ProductController extends Controller
         $product = DB::table('product')
             ->leftJoin('variant', 'product.id', '=', 'variant.product_id')
             ->where('product.id', $id)
+            ->where('product.status', 'active')
             ->select('product.*', 'variant.price as variant_price', 'variant.price as sell')
             ->first();
 
@@ -138,6 +140,7 @@ class ProductController extends Controller
         $query = DB::table('product')
             ->leftJoin('variant', 'product.id', '=', 'variant.product_id')
             ->where('product.tags', 'like', '%' . $tag . '%')
+            ->where('product.status', 'active')
             ->select('product.*', 'variant.price as variant_price', 'variant.price as sell')
             ->orderBy('product.created_at', 'desc');
 
@@ -168,8 +171,11 @@ class ProductController extends Controller
 
         $products = DB::table('product')
             ->leftJoin('variant', 'product.id', '=', 'variant.product_id')
-            ->where('product.title', 'like', '%' . $search . '%')
-            ->orWhere('product.description', 'like', '%' . $search . '%')
+            ->where('product.status', 'active')
+            ->where(function($q) use ($search) {
+                $q->where('product.title', 'like', '%' . $search . '%')
+                  ->orWhere('product.description', 'like', '%' . $search . '%');
+            })
             ->select('product.id', 'product.title', 'product.image', 'variant.price as sell')
             ->orderByRaw("CASE WHEN product.title LIKE ? THEN 1 ELSE 0 END DESC", ['%' . $search . '%'])
             ->orderBy('product.created_at', 'desc')
