@@ -202,16 +202,11 @@
                         <select name="main_category" id="main_category" required x-model="mainCategory" @change="updateSubcategories()"
                                 class="w-full h-12 px-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm font-bold text-gray-700 cursor-pointer">
                             <option value="">-- Chọn danh mục --</option>
-                            <option value="photocopy">🖨️ Máy Photocopy</option>
-                            <option value="muc">💧 Mực In</option>
-                            <option value="printer">📠 Máy In</option>
-                            <option value="laptop">💻 Laptop / Macbook</option>
-                            <option value="pc">🖥️ Máy tính để bàn</option>
-                            <option value="linh-kien">⚙️ Linh kiện máy tính</option>
-                            <option value="van-phong">🏢 Thiết bị văn phòng</option>
-                            <option value="internet">🌐 Thiết bị mạng</option>
-                            <option value="camera">📹 Camera an ninh</option>
-                            <option value="service">🛠️ Dịch vụ</option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat['tag'] ?? $cat['slug'] }}" {{ old('main_category', $currentMainCategory) === ($cat['tag'] ?? $cat['slug']) ? 'selected' : '' }}>
+                                    {{ $cat['icon'] }} {{ $cat['title'] }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -295,88 +290,9 @@
 <script>
 function categorySelector() {
     const subcategoryMap = {
-        'photocopy': [
-            { name: 'Ricoh', slug: 'sub-ricoh' }
-        ],
-        'muc': [
-            { name: 'AVP', slug: 'sub-avp' },
-            { name: 'HP', slug: 'sub-hp' },
-            { name: 'Canon', slug: 'sub-canon' },
-            { name: 'Epson', slug: 'sub-epson' },
-            { name: 'Brother', slug: 'sub-brother' },
-            { name: 'Oki', slug: 'sub-oki' },
-            { name: 'Ricoh', slug: 'sub-ricoh' },
-            { name: 'Xerox', slug: 'sub-xerox' }
-        ],
-        'printer': [
-            { name: 'HP', slug: 'sub-hp' },
-            { name: 'Canon', slug: 'sub-canon' },
-            { name: 'Epson', slug: 'sub-epson' },
-            { name: 'Brother', slug: 'sub-brother' },
-            { name: 'Xerox', slug: 'sub-xerox' },
-            { name: 'Pantum', slug: 'sub-pantum' }
-        ],
-        'laptop': [
-            { name: 'Apple MacBook', slug: 'sub-macbook' },
-            { name: 'ASUS', slug: 'sub-asus' },
-            { name: 'Dell', slug: 'sub-dell' },
-            { name: 'HP', slug: 'sub-hp' },
-            { name: 'Lenovo', slug: 'sub-lenovo' },
-            { name: 'MSI', slug: 'sub-msi' },
-            { name: 'Acer', slug: 'sub-acer' },
-            { name: 'Razer', slug: 'sub-razer' },
-            { name: 'Microsoft', slug: 'sub-microsoft' },
-            { name: 'Samsung', slug: 'sub-samsung' },
-            { name: 'LG', slug: 'sub-lg' },
-            { name: 'Huawei', slug: 'sub-huawei' },
-            { name: 'Gigabyte', slug: 'sub-gigabyte' }
-        ],
-        'pc': [
-            { name: 'Apple', slug: 'sub-apple' },
-            { name: 'Dell', slug: 'sub-dell' },
-            { name: 'HP', slug: 'sub-hp' },
-            { name: 'Lenovo', slug: 'sub-lenovo' },
-            { name: 'ASUS', slug: 'sub-asus' },
-            { name: 'MSI', slug: 'sub-msi' },
-            { name: 'Acer', slug: 'sub-acer' },
-            { name: 'Gigabyte', slug: 'sub-gigabyte' },
-            { name: 'Huawei', slug: 'sub-huawei' },
-            { name: 'Samsung', slug: 'sub-samsung' },
-            { name: 'Khác', slug: 'sub-khac' }
-        ],
-        'linh-kien': [
-            { name: 'Màn hình', slug: 'sub-monitor' },
-            { name: 'RAM', slug: 'sub-ram' },
-            { name: 'SSD/HDD', slug: 'sub-ssd' },
-            { name: 'Bảng mạch chính', slug: 'sub-mainboard' },
-            { name: 'CPU', slug: 'sub-cpu' },
-            { name: 'Card đồ họa', slug: 'sub-gpu' },
-            { name: 'Tai nghe', slug: 'sub-headphone' },
-            { name: 'Bộ phát wifi', slug: 'sub-wifi' },
-            { name: 'Nguồn', slug: 'sub-psu' },
-            { name: 'Bàn phím', slug: 'sub-keyboard' },
-            { name: 'Chuột', slug: 'sub-mouse' }
-        ],
-        'van-phong': [
-            { name: 'Máy chấm công', slug: 'sub-cham-cong' },
-            { name: 'Máy hủy giấy', slug: 'sub-huy-giay' },
-            { name: 'Máy in bill', slug: 'sub-in-bill' },
-            { name: 'Máy quét / Scanner', slug: 'sub-scan' },
-            { name: 'Máy chiếu', slug: 'sub-chieu' },
-            { name: 'Thiết bị khác', slug: 'sub-khac' }
-        ],
-        'internet': [
-            { name: 'Bộ định tuyến Wifi', slug: 'sub-router' },
-            { name: 'Bộ chuyển mạch (Switch)', slug: 'sub-switch' },
-            { name: 'Dây cáp internet', slug: 'sub-cable' }
-        ],
-        'camera': [
-            { name: 'Hikvision', slug: 'sub-hikvision' },
-            { name: 'IMOU', slug: 'sub-imou' },
-            { name: 'EVI', slug: 'sub-evi' },
-            { name: 'Khác', slug: 'sub-khac' }
-        ],
-        'service': []
+        @foreach($categories as $cat)
+            '{{ $cat['tag'] ?? $cat['slug'] }}': @json($cat['subcategories']),
+        @endforeach
     };
 
     return {

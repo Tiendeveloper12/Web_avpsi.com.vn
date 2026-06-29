@@ -74,6 +74,10 @@ class ProductController extends Controller
             ->select('product.*', 'variant.price as variant_price', 'variant.price as sell')
             ->first();
 
+        if (!$product) {
+            abort(404, 'Sản phẩm không tồn tại.');
+        }
+
         // Fetch similar products based on shared tags
         $relatedProducts = collect();
         if (!empty($product->tags)) {
@@ -97,40 +101,52 @@ class ProductController extends Controller
             }
         }
 
-        return view('products.show', ['product' => $product, 'relatedProducts' => $relatedProducts]);
+        // Fetch approved reviews with user details
+        $reviews = DB::table('reviews')
+            ->leftJoin('user', 'reviews.user_id', '=', 'user.id')
+            ->where('reviews.product_id', $id)
+            ->where('reviews.status', 'approved')
+            ->select('reviews.*', 'user.name as user_name')
+            ->orderBy('reviews.created_at', 'desc')
+            ->get();
+
+        $reviewsCount = $reviews->count();
+        $avgRating = $reviewsCount > 0 ? round($reviews->avg('rating'), 1) : 0;
+
+        // Star distribution
+        $starDistribution = [
+            5 => 0,
+            4 => 0,
+            3 => 0,
+            2 => 0,
+            1 => 0,
+        ];
+        foreach ($reviews as $review) {
+            $r = (int)$review->rating;
+            if (isset($starDistribution[$r])) {
+                $starDistribution[$r]++;
+            }
+        }
+
+        return view('products.show', [
+            'product' => $product, 
+            'relatedProducts' => $relatedProducts,
+            'reviews' => $reviews,
+            'reviewsCount' => $reviewsCount,
+            'avgRating' => $avgRating,
+            'starDistribution' => $starDistribution
+        ]);
     }
 
     public function category($slug)
     {
         // Mapping slug to display title
-        $categoryTitles = [
-            'may-photocopy' => 'Máy Photocopy',
-            'muc-in' => 'Mực In',
-            'may-in' => 'Máy In',
-            'laptop-macbook' => 'Laptop / Macbook',
-            'may-tinh-de-ban' => 'Máy tính để bàn',
-            'linh-kien-may-tinh' => 'Linh kiện máy tính',
-            'thiet-bi-van-phong' => 'Thiết bị văn phòng',
-            'thiet-bi-mang' => 'Thiết bị mạng',
-            'camera-an-ninh' => 'Camera an ninh',
-            'dich-vu' => 'Dịch vụ',
-        ];
+        $categoryTitles = \App\Services\CategoryService::getCategoryTitles();
 
         $title = $categoryTitles[$slug] ?? 'Danh mục sản phẩm';
         
         // Map slug to database tag (simplified mapping for now)
-        $tagMapping = [
-            'may-photocopy' => 'photocopy',
-            'muc-in' => 'muc',
-            'may-in' => 'printer',
-            'laptop-macbook' => 'laptop',
-            'may-tinh-de-ban' => 'pc',
-            'linh-kien-may-tinh' => 'linh-kien',
-            'thiet-bi-van-phong' => 'van-phong',
-            'thiet-bi-mang' => 'internet',
-            'camera-an-ninh' => 'camera',
-            'dich-vu' => 'service',
-        ];
+        $tagMapping = \App\Services\CategoryService::getTagMapping();
 
         $tag = $tagMapping[$slug] ?? $slug;
         $sub = request('sub');

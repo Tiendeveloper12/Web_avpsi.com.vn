@@ -145,6 +145,23 @@
                                 <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                                 Quản lý liên hệ
                             </a>
+                            <a href="{{ route('admin.categories.index') }}" class="block px-3 py-2.5 text-base font-semibold text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2 border-b border-gray-50" style="white-space: nowrap;">
+                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                                Quản lý danh mục
+                            </a>
+                            <a href="{{ route('admin.reviews.index') }}" class="block px-3 py-2.5 text-base font-semibold text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2 border-b border-gray-50" style="white-space: nowrap;">
+                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.977-2.888a1 1 0 00-1.176 0l-3.977 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+                                Quản lý đánh giá
+                            </a>
+                        @else
+                            <a href="{{ route('profile.index') }}" class="block px-3 py-2.5 text-base font-semibold text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2 border-b border-gray-50" style="white-space: nowrap;">
+                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                Hồ sơ cá nhân
+                            </a>
+                            <a href="{{ route('profile.index') }}#orders" class="block px-3 py-2.5 text-base font-semibold text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2 border-b border-gray-50" style="white-space: nowrap;">
+                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                                Đơn hàng của tôi
+                            </a>
                         @endif
                         
                         <form method="POST" action="{{ route('logout') }}" class="w-full">
@@ -306,132 +323,7 @@
                  style="display: none;"
                  x-cloak>
                  @php
-                     $categories = [
-                         [
-                             'title' => 'Máy Photocopy', 
-                             'slug' => 'may-photocopy',
-                             'icon' => '🖨️', 
-                             'subcategories' => ['Ricoh']
-                         ],
-                         [
-                             'title' => 'Mực In', 
-                             'slug' => 'muc-in',
-                             'icon' => '💧', 
-                             'subcategories' => [
-                                 ['name' => 'AVP', 'slug' => 'sub-avp'],
-                                 ['name' => 'HP', 'slug' => 'sub-hp'],
-                                 ['name' => 'Canon', 'slug' => 'sub-canon'],
-                                 ['name' => 'Epson', 'slug' => 'sub-epson'],
-                                 ['name' => 'Brother', 'slug' => 'sub-brother'],
-                                 ['name' => 'Oki', 'slug' => 'sub-oki'],
-                                 ['name' => 'Ricoh', 'slug' => 'sub-ricoh'],
-                                 ['name' => 'Xerox', 'slug' => 'sub-xerox']
-                             ]
-                         ],
-                         [
-                             'title' => 'Máy In', 
-                             'slug' => 'may-in',
-                             'icon' => '📠', 
-                             'subcategories' => [
-                                 ['name' => 'Máy in HP', 'slug' => 'sub-hp'],
-                                 ['name' => 'Máy in Canon', 'slug' => 'sub-canon'],
-                                 ['name' => 'Máy in Epson', 'slug' => 'sub-epson'],
-                                 ['name' => 'Máy in Brother', 'slug' => 'sub-brother'],
-                                 ['name' => 'Máy in Xerox', 'slug' => 'sub-xerox'],
-                                 ['name' => 'Máy in Pantum', 'slug' => 'sub-pantum']
-                             ]
-                         ],
-                         [
-                             'title' => 'Laptop / Macbook', 
-                             'slug' => 'laptop-macbook',
-                             'icon' => '💻', 
-                             'subcategories' => [
-                                 ['name' => 'Apple MacBook', 'slug' => 'sub-macbook'],
-                                 ['name' => 'Laptop ASUS', 'slug' => 'sub-asus'],
-                                 ['name' => 'Laptop Dell', 'slug' => 'sub-dell'],
-                                 ['name' => 'Laptop HP', 'slug' => 'sub-hp'],
-                                 ['name' => 'Laptop Lenovo', 'slug' => 'sub-lenovo'],
-                                 ['name' => 'Laptop MSI', 'slug' => 'sub-msi'],
-                                 ['name' => 'Laptop Acer', 'slug' => 'sub-acer'],
-                                 ['name' => 'Laptop Razer', 'slug' => 'sub-razer'],
-                                 ['name' => 'Laptop Microsoft', 'slug' => 'sub-microsoft'],
-                                 ['name' => 'Laptop Samsung', 'slug' => 'sub-samsung'],
-                                 ['name' => 'Laptop LG', 'slug' => 'sub-lg'],
-                                 ['name' => 'Laptop Huawei', 'slug' => 'sub-huawei'],
-                                 ['name' => 'Laptop Gigabyte', 'slug' => 'sub-gigabyte']
-                             ]
-                         ],
-                         [
-                             'title' => 'Máy tính để bàn', 
-                             'slug' => 'may-tinh-de-ban',
-                             'icon' => '🖥️', 
-                             'subcategories' => [
-                                 ['name' => 'Apple', 'slug' => 'sub-apple'],
-                                 ['name' => 'Dell', 'slug' => 'sub-dell'],
-                                 ['name' => 'HP', 'slug' => 'sub-hp'],
-                                 ['name' => 'Lenovo', 'slug' => 'sub-lenovo'],
-                                 ['name' => 'ASUS', 'slug' => 'sub-asus'],
-                                 ['name' => 'MSI', 'slug' => 'sub-msi'],
-                                 ['name' => 'Acer', 'slug' => 'sub-acer'],
-                                 ['name' => 'Gigabyte', 'slug' => 'sub-gigabyte'],
-                                 ['name' => 'Huawei', 'slug' => 'sub-huawei'],
-                                 ['name' => 'Samsung', 'slug' => 'sub-samsung'],
-                                 ['name' => 'Khác', 'slug' => 'sub-khac']
-                             ]
-                         ],
-                         [
-                             'title' => 'Linh kiện máy tính', 
-                             'slug' => 'linh-kien-may-tinh',
-                             'icon' => '⚙️', 
-                             'subcategories' => [
-                                 ['name' => 'Màn hình', 'slug' => 'sub-monitor'],
-                                 ['name' => 'RAM', 'slug' => 'sub-ram'],
-                                 ['name' => 'SSD/HDD', 'slug' => 'sub-ssd'],
-                                 ['name' => 'Bảng mạch chính', 'slug' => 'sub-mainboard'],
-                                 ['name' => 'CPU', 'slug' => 'sub-cpu'],
-                                 ['name' => 'Card đồ họa', 'slug' => 'sub-gpu'],
-                                 ['name' => 'Tai nghe', 'slug' => 'sub-headphone'],
-                                 ['name' => 'Bộ phát wifi', 'slug' => 'sub-wifi'],
-                                 ['name' => 'Nguồn', 'slug' => 'sub-psu'],
-                                 ['name' => 'Bàn phím', 'slug' => 'sub-keyboard'],
-                                 ['name' => 'Chuột', 'slug' => 'sub-mouse']
-                             ]
-                         ],
-                         [
-                             'title' => 'Thiết bị văn phòng', 
-                             'slug' => 'thiet-bi-van-phong',
-                             'icon' => '🏢', 
-                             'subcategories' => [
-                                 ['name' => 'Máy chấm công', 'slug' => 'sub-cham-cong'],
-                                 ['name' => 'Máy hủy giấy', 'slug' => 'sub-huy-giay'],
-                                 ['name' => 'Máy in bill', 'slug' => 'sub-in-bill'],
-                                 ['name' => 'Máy quét / Scanner', 'slug' => 'sub-scan'],
-                                 ['name' => 'Máy chiếu', 'slug' => 'sub-chieu'],
-                                 ['name' => 'Thiết bị khác', 'slug' => 'sub-khac']
-                             ]
-                         ],
-                         [
-                             'title' => 'Thiết bị mạng', 
-                             'slug' => 'thiet-bi-mang',
-                             'icon' => '🌐', 
-                             'subcategories' => [
-                                 ['name' => 'Bộ định tuyến Wifi', 'slug' => 'sub-router'],
-                                 ['name' => 'Bộ chuyển mạch (Switch)', 'slug' => 'sub-switch'],
-                                 ['name' => 'Dây cáp internet', 'slug' => 'sub-cable']
-                             ]
-                         ],
-                         [
-                             'title' => 'Camera an ninh', 
-                             'slug' => 'camera-an-ninh',
-                             'icon' => '📹', 
-                             'subcategories' => [
-                                 ['name' => 'Hikvision', 'slug' => 'sub-hikvision'],
-                                 ['name' => 'IMOU', 'slug' => 'sub-imou'],
-                                 ['name' => 'EVI', 'slug' => 'sub-evi'],
-                                 ['name' => 'Khác', 'slug' => 'sub-khac']
-                             ]
-                         ],
-                     ];
+                     $categories = \App\Services\CategoryService::getAll();
                  @endphp
                  
                  <div class="grid grid-cols-3 gap-x-6 gap-y-4">

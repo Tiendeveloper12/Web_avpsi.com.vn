@@ -106,4 +106,28 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/contacts/{id}/toggle-flag', [\App\Http\Controllers\Admin\ContactController::class, 'toggleFlag'])->name('admin.contacts.toggle_flag');
     Route::post('/admin/contacts/mark-all-read', [\App\Http\Controllers\Admin\ContactController::class, 'markAllRead'])->name('admin.contacts.mark_all_read');
     Route::delete('/admin/contacts/{id}', [\App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('admin.contacts.destroy');
+
+    // Admin Category & Tag Management routes
+    Route::get('/admin/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('admin.categories.index');
+    Route::post('/admin/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'store'])->name('admin.categories.store');
+    Route::post('/admin/categories/reorder', [\App\Http\Controllers\Admin\CategoryController::class, 'reorder'])->name('admin.categories.reorder');
+    Route::put('/admin/categories/{slug}', [\App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::delete('/admin/categories/{slug}', [\App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+    Route::post('/admin/categories/{slug}/subcategories', [\App\Http\Controllers\Admin\CategoryController::class, 'storeSubcategory'])->name('admin.categories.store_subcategory');
+    Route::put('/admin/categories/{slug}/subcategories/{subSlug}', [\App\Http\Controllers\Admin\CategoryController::class, 'updateSubcategory'])->name('admin.categories.update_subcategory');
+    Route::delete('/admin/categories/{slug}/subcategories/{subSlug}', [\App\Http\Controllers\Admin\CategoryController::class, 'destroySubcategory'])->name('admin.categories.destroy_subcategory');
+
+    // Customer Profile & Order History routes
+    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/orders/{id}', [\App\Http\Controllers\ProfileController::class, 'showOrder'])->name('profile.order');
+
+    // Product reviews submission
+    Route::post('/products/{id}/reviews', [\App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store');
+
+    // Admin Review Moderation routes
+    Route::get('/admin/reviews', [\App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('admin.reviews.index');
+    Route::post('/admin/reviews/{id}/approve', [\App\Http\Controllers\Admin\ReviewController::class, 'approve'])->name('admin.reviews.approve');
+    Route::post('/admin/reviews/{id}/reject', [\App\Http\Controllers\Admin\ReviewController::class, 'reject'])->name('admin.reviews.reject');
+    Route::delete('/admin/reviews/{id}', [\App\Http\Controllers\Admin\ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 });

@@ -161,6 +161,7 @@ class CartController extends Controller
 
         DB::transaction(function () use ($request, $cartItems, $total) {
             $orderId = DB::table('orders')->insertGetId([
+                'user_id' => Auth::check() ? Auth::id() : null,
                 'customer_name' => $request->input('customer_name'),
                 'customer_phone' => $request->input('customer_phone'),
                 'customer_email' => $request->input('customer_email'),

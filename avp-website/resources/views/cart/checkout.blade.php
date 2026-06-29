@@ -78,7 +78,7 @@
                         <!-- Email (New Field Added) -->
                         <div class="space-y-2 mt-6">
                             <label class="block text-sm font-bold text-gray-700">Địa chỉ Email <span class="text-primary">*</span></label>
-                            <input type="email" name="customer_email" required placeholder="Nhập email của bạn (Ví dụ: customer@example.com)" 
+                            <input type="email" name="customer_email" required value="{{ Auth::check() ? Auth::user()->email : old('customer_email') }}" placeholder="Nhập email của bạn (Ví dụ: customer@example.com)" 
                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm">
                         </div>
 
@@ -215,12 +215,12 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('addressSelector', () => ({
                 provinces: [],
-                customerName: '',
-                customerPhone: '',
+                customerName: '{{ Auth::check() ? Auth::user()->name : "" }}',
+                customerPhone: '{{ Auth::check() ? Auth::user()->phone : "" }}',
                 selectedProvince: '',
                 selectedDistrict: '',
                 selectedWard: '',
-                streetAddress: '',
+                streetAddress: '{{ Auth::check() ? Auth::user()->address : "" }}',
                 hcmcWards: [
                     { Id: "hcm-1", Name: "Phường Sài Gòn" },
                     { Id: "hcm-2", Name: "Phường Tân Định" },

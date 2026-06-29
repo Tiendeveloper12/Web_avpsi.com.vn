@@ -58,7 +58,8 @@ class ProductController extends Controller
     public function create()
     {
         $this->checkAdmin();
-        return view('admin.products.create');
+        $categories = \App\Services\CategoryService::getAll();
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
@@ -148,7 +149,8 @@ class ProductController extends Controller
         // Parse tags
         $tags = array_filter(explode(',', $product->tags));
 
-        return view('admin.products.edit', compact('product', 'tags'));
+        $categories = \App\Services\CategoryService::getAll();
+        return view('admin.products.edit', compact('product', 'tags', 'categories'));
     }
 
     /**
