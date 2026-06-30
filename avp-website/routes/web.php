@@ -130,4 +130,26 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/reviews/{id}/approve', [\App\Http\Controllers\Admin\ReviewController::class, 'approve'])->name('admin.reviews.approve');
     Route::post('/admin/reviews/{id}/reject', [\App\Http\Controllers\Admin\ReviewController::class, 'reject'])->name('admin.reviews.reject');
     Route::delete('/admin/reviews/{id}', [\App\Http\Controllers\Admin\ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+
+    // Super Admin User Management routes
+    Route::middleware('role:superadmin')->group(function () {
+        Route::get('/admin/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.users.index');
+        Route::post('/admin/users/{id}/role', [\App\Http\Controllers\Admin\UserController::class, 'updateRole'])->name('admin.users.update_role');
+        Route::post('/admin/users/{id}/toggle-status', [\App\Http\Controllers\Admin\UserController::class, 'toggleStatus'])->name('admin.users.toggle_status');
+        Route::post('/admin/users/{id}/reset-password', [\App\Http\Controllers\Admin\UserController::class, 'resetPassword'])->name('admin.users.reset_password');
+        Route::delete('/admin/users/{id}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('admin.users.destroy');
+
+        // Page Customization routes
+        Route::get('/admin/settings', [\App\Http\Controllers\Admin\SiteSettingController::class, 'index'])->name('admin.settings.index');
+        Route::put('/admin/settings', [\App\Http\Controllers\Admin\SiteSettingController::class, 'update'])->name('admin.settings.update');
+
+        Route::resource('/admin/banners', \App\Http\Controllers\Admin\BannerController::class)->names('admin.banners')->except(['show']);
+        Route::post('/admin/banners/reorder', [\App\Http\Controllers\Admin\BannerController::class, 'reorder'])->name('admin.banners.reorder');
+        Route::post('/admin/banners/{id}/toggle', [\App\Http\Controllers\Admin\BannerController::class, 'toggleActive'])->name('admin.banners.toggle');
+
+        Route::get('/admin/pages/{page}', [\App\Http\Controllers\Admin\PageSectionController::class, 'index'])->name('admin.pages.index');
+        Route::get('/admin/pages/sections/{id}/edit', [\App\Http\Controllers\Admin\PageSectionController::class, 'edit'])->name('admin.pages.edit');
+        Route::put('/admin/pages/sections/{id}', [\App\Http\Controllers\Admin\PageSectionController::class, 'update'])->name('admin.pages.update');
+        Route::post('/admin/pages/sections/{id}/toggle', [\App\Http\Controllers\Admin\PageSectionController::class, 'toggleActive'])->name('admin.pages.toggle');
+    });
 });

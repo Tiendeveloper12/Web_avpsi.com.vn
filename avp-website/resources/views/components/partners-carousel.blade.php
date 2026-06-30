@@ -3,23 +3,31 @@
         <h4 class="text-center text-gray-400 font-bold text-xs uppercase tracking-widest mb-8">Đối tác chiến lược</h4>
         
         @php
-            $partners = [
-                'Ricoh_logo.png',
-                'logo-brother.jpg',
-                'logo-cisco.jpg',
-                'logo-commscope-amp.jpg',
-                'logo-dell.jpg',
-                'logo-gigabyte.jpg',
-                'logo-hikvision.jpg',
-                'logo-hp.jpg',
-                'logo-intel.jpg',
-                'logo-seagate.jpg',
-                'logo-unifi.jpg',
-                'logo-western-digital.jpg',
-                'logo-zebra.jpg',
-                'logo_apple.jpg',
-                'logo_asus.jpg',
-            ];
+            $partnerFiles = glob(public_path('images/partners/*.*'));
+            $partners = [];
+            if ($partnerFiles) {
+                $partners = array_map('basename', $partnerFiles);
+            }
+            // Fallback to initial hardcoded list if folder is empty or not readable
+            if (empty($partners)) {
+                $partners = [
+                    'Ricoh_logo.png',
+                    'logo-brother.jpg',
+                    'logo-cisco.jpg',
+                    'logo-commscope-amp.jpg',
+                    'logo-dell.jpg',
+                    'logo-gigabyte.jpg',
+                    'logo-hikvision.jpg',
+                    'logo-hp.jpg',
+                    'logo-intel.jpg',
+                    'logo-seagate.jpg',
+                    'logo-unifi.jpg',
+                    'logo-western-digital.jpg',
+                    'logo-zebra.jpg',
+                    'logo_apple.jpg',
+                    'logo_asus.jpg',
+                ];
+            }
         @endphp
 
         <!-- Infinite Scroll Marquee -->

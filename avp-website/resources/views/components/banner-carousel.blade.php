@@ -1,55 +1,28 @@
+@php
+    $banners = \App\Models\Banner::active()->get();
+    $slides = [];
+    foreach ($banners as $banner) {
+        $slides[] = [
+            'id' => $banner->id,
+            'image' => asset($banner->image_path),
+            'title' => $banner->title,
+            'subtitle' => $banner->subtitle ?: '',
+            'badge' => $banner->badge ?: '',
+            'buttonText' => $banner->button_text ?: 'Mua ngay',
+            'link' => $banner->link ?: '#'
+        ];
+    }
+@endphp
+
 <div x-data="{ 
-    activeSlide: 1, 
-    slides: [
-        { 
-            id: 1, 
-            image: '{{ asset('images/banners/banner_photocopy.png') }}',
-            title: 'Giải Pháp Photocopy Chuyên Nghiệp',
-            subtitle: 'Dịch vụ cho thuê và bán máy photocopy Ricoh chính hãng, hiệu suất cao cho doanh nghiệp.',
-            badge: 'SẢN PHẨM MỚI',
-            buttonText: 'Chi tiết',
-            link: '/category/may-photocopy'
-        },
-        { 
-            id: 2, 
-            image: '{{ asset('images/banners/banner_ink.png') }}',
-            title: 'Mực In Chính Hãng - Chất Lượng Cao',
-            subtitle: 'Cung cấp đầy đủ các loại mực in cho máy HP, Canon, Brother, Ricoh.',
-            badge: 'PHỤ KIỆN',
-            buttonText: 'Mua ngay',
-            link: '/category/muc-in'
-        },
-        { 
-            id: 3, 
-            image: '{{ asset('images/banners/banner_printer.png') }}',
-            title: 'Máy In Văn Phòng Chuyên Nghiệp',
-            subtitle: 'Phân phối các dòng máy in Canon, HP, Brother giá tốt nhất.',
-            badge: 'MÁY IN',
-            buttonText: 'Mua ngay',
-            link: '/category/may-in'
-        },
-        { 
-            id: 4, 
-            image: '{{ asset('images/banners/banner_devices.png') }}',
-            title: 'Thiết Bị Văn Phòng Hiện Đại',
-            subtitle: 'Laptop, PC, Màn hình và giải pháp công nghệ toàn diện cho doanh nghiệp.',
-            badge: 'THIẾT BỊ',
-            buttonText: 'Mua Ngay',
-            link: '/category/may-tinh-de-ban'
-        },
-        { 
-            id: 5, 
-            image: '{{ asset('images/banners/banner_accessories.png') }}',
-            title: 'Linh Kiện & Phụ Kiện Máy Tính',
-            subtitle: 'Chuột, bàn phím, tai nghe và linh kiện nâng cấp chính hãng.',
-            badge: 'PHỤ KIỆN',
-            buttonText: 'Mua ngay',
-            link: '/category/linh-kien-may-tinh'
-        }
-    ],
+    activeSlide: {{ count($slides) > 0 ? $slides[0]['id'] : 1 }}, 
+    slides: {{ json_encode($slides, JSON_UNESCAPED_UNICODE) }},
     autoPlay() {
+        if (this.slides.length <= 1) return;
         setInterval(() => {
-            this.activeSlide = this.activeSlide === this.slides.length ? 1 : this.activeSlide + 1;
+            const currentIndex = this.slides.findIndex(s => s.id === this.activeSlide);
+            const nextIndex = currentIndex === this.slides.length - 1 ? 0 : currentIndex + 1;
+            this.activeSlide = this.slides[nextIndex].id;
         }, 6000);
     }
 }" x-init="autoPlay()" class="relative overflow-hidden rounded-xl bg-dark shadow-[0_30px_100px_-15px_rgba(0,0,0,0.25)] h-[180px] sm:h-[260px] md:h-[360px] lg:h-[480px] xl:h-[600px] border border-gray-100">
@@ -96,11 +69,11 @@
     </div>
 
     <!-- Navigation Arrows -->
-    <button @click="activeSlide = activeSlide === 1 ? slides.length : activeSlide - 1" 
+    <button @click="const currIdx = slides.findIndex(s => s.id === activeSlide); const nextIdx = currIdx === 0 ? slides.length - 1 : currIdx - 1; activeSlide = slides[nextIdx].id" 
             class="absolute left-8 top-1/2 -translate-y-1/2 w-14 h-14 bg-black/5 hover:bg-primary rounded-full flex items-center justify-center text-white/30 hover:text-white transition-all group z-20 border border-white/5 hover:border-white/20">
         <svg class="w-8 h-8 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
     </button>
-    <button @click="activeSlide = activeSlide === slides.length ? 1 : activeSlide + 1" 
+    <button @click="const currIdx = slides.findIndex(s => s.id === activeSlide); const nextIdx = currIdx === slides.length - 1 ? 0 : currIdx + 1; activeSlide = slides[nextIdx].id" 
             class="absolute right-8 top-1/2 -translate-y-1/2 w-14 h-14 bg-black/5 hover:bg-primary rounded-full flex items-center justify-center text-white/30 hover:text-white transition-all group z-20 border border-white/5 hover:border-white/20">
         <svg class="w-8 h-8 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
     </button>

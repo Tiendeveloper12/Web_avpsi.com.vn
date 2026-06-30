@@ -14,8 +14,11 @@ class ContactController extends Controller
      */
     private function checkAdmin()
     {
-        if (!Auth::check() || Auth::user()->email !== 'Admin1@gmail.com') {
+        if (!Auth::check() || Auth::user()->role_id < 1) {
             abort(403, 'Unauthorized access.');
+        }
+        if (Auth::user()->status === 'suspended') {
+            abort(403, 'Tài khoản của bạn đã bị khóa.');
         }
     }
 

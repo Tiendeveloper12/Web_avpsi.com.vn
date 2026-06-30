@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Banner;
+use App\Models\PageSection;
 
 class HomeController extends Controller
 {
@@ -59,6 +61,21 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
-        return view('home.index', compact('products', 'articles', 'topPrinters', 'photocopiers', 'officeProducts', 'internetProducts'));
+        // Fetch customizable banners and sections
+        $banners = Banner::active()->get();
+        $promoRepair = PageSection::getSection('home', 'promo_pc_repair');
+        $promoPhotocopy = PageSection::getSection('home', 'promo_photocopy');
+
+        return view('home.index', compact(
+            'products', 
+            'articles', 
+            'topPrinters', 
+            'photocopiers', 
+            'officeProducts', 
+            'internetProducts',
+            'banners',
+            'promoRepair',
+            'promoPhotocopy'
+        ));
     }
 }
